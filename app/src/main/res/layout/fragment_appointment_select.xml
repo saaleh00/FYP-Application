@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".AppointmentSelectFragment">
 
 
@@ -20,16 +21,18 @@
         android:layout_height="wrap_content"
         android:text="date"
         android:textSize="30sp"
-        android:layout_above="@+id/datePickerButton"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"/>
 
-    <Button
-        android:id="@+id/datePickerButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="open date picker" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/timeSlotRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/dateText"
+        android:layout_marginTop="33dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="3"
+        tools:listitem="@layout/item_time_slot" />
 
 
 </RelativeLayout>

@@ -1,5 +1,6 @@
 package com.example.medicalcentreappointmentbooker;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,8 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -66,11 +70,30 @@ public class DoctorSelectFragment extends Fragment implements DoctorAdapter.Item
 
     @Override
     public void onItemClick(String s) {
-        appointmentSelectFragment = AppointmentSelectFragment.newInstance(s);
+        DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, monthOfYear);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
 
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.container, appointmentSelectFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+                appointmentSelectFragment = AppointmentSelectFragment.newInstance(s, currentDateString);
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.container, appointmentSelectFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
+                //dateText.setText(currentDateString);
+            }
+        };
+
+        final Calendar calendar = Calendar.getInstance();
+        int Year = calendar.get(Calendar.YEAR);
+        int Month = calendar.get(Calendar.MONTH);
+        int Day = calendar.get(Calendar.DAY_OF_MONTH);
+        DatePickerDialog dateDialog= new DatePickerDialog(getActivity(), datePickerListener, Year, Month, Day);
+        dateDialog.show();
     }
 }

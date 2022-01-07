@@ -6,6 +6,8 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,26 +18,39 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class AppointmentSelectFragment extends Fragment{
 
     private static final String ARG_DOCTOR_NAME = "doctorName";
+    private static final String ARG_SELECT_DATE = "selectedDate";
+
+    private TimeSlotAdapter timeSlotAdapter;
+
 
     private String doctorName;
+    private String selectedDate;
+
+    private RecyclerView timeSlotRecyclerView;
+
+    private ArrayList<String> timePeriodList = new ArrayList<>();
+    private HashMap<String, ArrayList<String>> timeSlotList = new HashMap<>();
 
     private TextView appointmentSelectDoctorName;
     private TextView dateText;
-    private Button datePickerButton;
+    private TextView timeTextView;
 
     public AppointmentSelectFragment() {
         // Required empty public constructor
     }
 
-    public static AppointmentSelectFragment newInstance(String doctorName) {
+    public static AppointmentSelectFragment newInstance(String doctorName, String selectedDate) {
         AppointmentSelectFragment fragment = new AppointmentSelectFragment();
         Bundle args = new Bundle();
         args.putString(ARG_DOCTOR_NAME, doctorName);
+        args.putString(ARG_SELECT_DATE, selectedDate);
         fragment.setArguments(args);
         return fragment;
     }
@@ -45,6 +60,7 @@ public class AppointmentSelectFragment extends Fragment{
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             doctorName = getArguments().getString(ARG_DOCTOR_NAME);
+            selectedDate = getArguments().getString(ARG_SELECT_DATE);
         }
     }
 
@@ -52,37 +68,62 @@ public class AppointmentSelectFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_appointment_select, container, false);
+        createTimeLists();
 
         dateText = view.findViewById(R.id.dateText);
-
-        datePickerButton = view.findViewById(R.id.datePickerButton);
-        DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(Calendar.YEAR, year);
-                calendar.set(Calendar.MONTH, monthOfYear);
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
-
-                dateText.setText(currentDateString);
-            }
-        };
-        datePickerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Calendar calendar = Calendar.getInstance();
-                int Year = calendar.get(Calendar.YEAR);
-                int Month = calendar.get(Calendar.MONTH);
-                int Day = calendar.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog dateDialog= new DatePickerDialog(getActivity(), datePickerListener, Year, Month, Day);
-                dateDialog.show();
-            }
-        });
+        dateText.setText(selectedDate);
 
         appointmentSelectDoctorName = view.findViewById(R.id.appointmentSelectDoctorName);
         appointmentSelectDoctorName.setText(doctorName);
 
+        timeTextView = view.findViewById(R.id.timeTextView);
+
+        timeSlotRecyclerView = view.findViewById(R.id.timeSlotRecyclerView);
+
+        timeSlotAdapter = new TimeSlotAdapter(getActivity(), timePeriodList, timeSlotList);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
+        timeSlotRecyclerView.setLayoutManager(gridLayoutManager);
+        timeSlotAdapter.setLayoutManager(gridLayoutManager);
+
+        timeSlotAdapter.shouldShowHeadersForEmptySections(false);
+
+        timeSlotRecyclerView.setAdapter(timeSlotAdapter);
+
         return view;
+    }
+
+    public void createTimeLists(){
+        timePeriodList.add("Morning");
+        timePeriodList.add("Afternoon");
+        timePeriodList.add("Evening");
+
+        ArrayList<String> timeList = new ArrayList<>();
+        //Morning
+        timeList.add("09:00 AM");
+        timeList.add("09:30 AM");
+        timeList.add("10:00 AM");
+        timeList.add("10:30 AM");
+        timeList.add("11:00 AM");
+        timeList.add("11:30 AM");
+        timeSlotList.put(timePeriodList.get(0), timeList);
+        //Afternoon
+        timeList = new ArrayList<>();
+        timeList.add("12:00 PM");
+        timeList.add("12:30 PM");
+        timeList.add("13:00 PM");
+        timeList.add("13:30 PM");
+        timeList.add("14:00 PM");
+        timeList.add("14:30 PM");
+        timeList.add("15:00 PM");
+        timeList.add("15:30 PM");
+        timeList.add("16:00 PM");
+        timeSlotList.put(timePeriodList.get(1), timeList);
+        //Evening
+        timeList = new ArrayList<>();
+        timeList.add("16:30 PM");
+        timeList.add("17:00 PM");
+        timeList.add("17:30 PM");
+        timeList.add("18:00 PM");
+        timeSlotList.put(timePeriodList.get(2), timeList);
     }
 }

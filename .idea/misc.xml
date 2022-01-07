@@ -3,12 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/saale/OneDrive - University of Bradford/Documents/Projects/Final Year Project/Medical Centre Appointment Booker/app/src/main/res/drawable/rectangle_fill.xml" value="0.1" />
+        <entry key="..\:/Users/saale/OneDrive - University of Bradford/Documents/Projects/Final Year Project/Medical Centre Appointment Booker/app/src/main/res/drawable/rectangle_outline.xml" value="0.4777777777777778" />
         <entry key="..\:/Users/saale/OneDrive - University of Bradford/Documents/Projects/Final Year Project/Medical Centre Appointment Booker/app/src/main/res/layout/activity_booking.xml" value="0.2793819655521783" />
         <entry key="..\:/Users/saale/OneDrive - University of Bradford/Documents/Projects/Final Year Project/Medical Centre Appointment Booker/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/saale/OneDrive - University of Bradford/Documents/Projects/Final Year Project/Medical Centre Appointment Booker/app/src/main/res/layout/doctor_item.xml" value="0.2793819655521783" />
         <entry key="..\:/Users/saale/OneDrive - University of Bradford/Documents/Projects/Final Year Project/Medical Centre Appointment Booker/app/src/main/res/layout/fragment_appointment_select.xml" value="0.4601449275362319" />
         <entry key="..\:/Users/saale/OneDrive - University of Bradford/Documents/Projects/Final Year Project/Medical Centre Appointment Booker/app/src/main/res/layout/fragment_doctor_select.xml" value="0.5744791666666667" />
         <entry key="..\:/Users/saale/OneDrive - University of Bradford/Documents/Projects/Final Year Project/Medical Centre Appointment Booker/app/src/main/res/layout/fragment_home.xml" value="0.5744791666666667" />
+        <entry key="..\:/Users/saale/OneDrive - University of Bradford/Documents/Projects/Final Year Project/Medical Centre Appointment Booker/app/src/main/res/layout/item_time_slot.xml" value="0.1" />
+        <entry key="..\:/Users/saale/OneDrive - University of Bradford/Documents/Projects/Final Year Project/Medical Centre Appointment Booker/app/src/main/res/layout/item_time_slot_header.xml" value="0.1" />
       </map>
     </option>
   </component>
@@ -17,5 +21,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.4601449275362319" />
+      </ProjectState>
+    </option>
   </component>
 </project>

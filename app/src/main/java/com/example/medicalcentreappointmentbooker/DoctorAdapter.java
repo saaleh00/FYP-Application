@@ -15,15 +15,23 @@ import java.util.List;
 
 public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.ViewHolder> {
 
-    List<String> doctorNames;
+    private List<String> doctorNames;
     //list of integer to get images from drawable folder -> need to change to get images from database
-    List<Integer> doctorImages;
-    LayoutInflater inflater;
+    private List<Integer> doctorImages;
+    private LayoutInflater inflater;
+    private ItemClickListener clickListener;
 
     public DoctorAdapter(Context context, List<String> doctorNames, List<Integer> doctorImages) {
         this.doctorNames = doctorNames;
         this.doctorImages = doctorImages;
         this.inflater = LayoutInflater.from(context);
+    }
+
+    public DoctorAdapter(Context context, List<String> doctorNames, List<Integer> doctorImages, ItemClickListener clickListener) {
+        this.doctorNames = doctorNames;
+        this.doctorImages = doctorImages;
+        this.inflater = LayoutInflater.from(context);
+        this.clickListener = clickListener;
     }
 
     @NonNull
@@ -38,6 +46,13 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.ViewHolder
     public void onBindViewHolder(@NonNull DoctorAdapter.ViewHolder holder, int position) {
         holder.doctorName.setText(doctorNames.get(position));
         holder.doctorImage.setImageResource(doctorImages.get(position));
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickListener.onItemClick(doctorNames.get(position));
+            }
+        });
 
     }
 
@@ -57,9 +72,14 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.ViewHolder
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(v.getContext(), "clicked " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
+
                 }
             });
         }
+    }
+
+    public interface ItemClickListener {
+
+        public void onItemClick(String s);
     }
 }

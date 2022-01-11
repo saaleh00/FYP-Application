@@ -84,8 +84,6 @@ public class DoctorSelectFragment extends Fragment implements DoctorAdapter.Item
                 fragmentTransaction.replace(R.id.container, appointmentSelectFragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
-
-                //dateText.setText(currentDateString);
             }
         };
 

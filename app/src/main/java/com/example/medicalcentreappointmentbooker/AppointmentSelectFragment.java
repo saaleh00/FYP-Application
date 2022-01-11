@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,13 +23,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
-public class AppointmentSelectFragment extends Fragment{
+public class AppointmentSelectFragment extends Fragment implements TimeSlotAdapter.ItemClickListener{
 
     private static final String ARG_DOCTOR_NAME = "doctorName";
     private static final String ARG_SELECT_DATE = "selectedDate";
 
     private TimeSlotAdapter timeSlotAdapter;
-
+    private AppointmentConfirmationFragment appointmentConfirmationFragment;
 
     private String doctorName;
     private String selectedDate;
@@ -80,7 +81,7 @@ public class AppointmentSelectFragment extends Fragment{
 
         timeSlotRecyclerView = view.findViewById(R.id.timeSlotRecyclerView);
 
-        timeSlotAdapter = new TimeSlotAdapter(getActivity(), timePeriodList, timeSlotList);
+        timeSlotAdapter = new TimeSlotAdapter(getActivity(), timePeriodList, timeSlotList, this);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
         timeSlotRecyclerView.setLayoutManager(gridLayoutManager);
         timeSlotAdapter.setLayoutManager(gridLayoutManager);
@@ -125,5 +126,14 @@ public class AppointmentSelectFragment extends Fragment{
         timeList.add("17:30 PM");
         timeList.add("18:00 PM");
         timeSlotList.put(timePeriodList.get(2), timeList);
+    }
+
+    @Override
+    public void onItemClick(String timeItem) {
+        appointmentConfirmationFragment = AppointmentConfirmationFragment.newInstance(selectedDate, timeItem, doctorName);
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.container, appointmentConfirmationFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "746548648341",
+    "firebase_url": "https://mc-appointment-booker-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "mc-appointment-booker",
+    "storage_bucket": "mc-appointment-booker.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:746548648341:android:9b033a8fa5e034efd4fe9c",
+        "android_client_info": {
+          "package_name": "com.example.medicalcentreappointmentbooker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "746548648341-hg7dru41er577956qo1h7b3l29luv42g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCVyUQccS3xVNF-l3r-ZHTVeSb9h-UeMk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "746548648341-hg7dru41er577956qo1h7b3l29luv42g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

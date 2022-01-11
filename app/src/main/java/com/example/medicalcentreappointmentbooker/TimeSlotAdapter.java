@@ -20,17 +20,19 @@ import java.util.HashMap;
 
 public class TimeSlotAdapter extends SectionedRecyclerViewAdapter<TimeSlotAdapter.ViewHolder> {
 
-    Context context;
-    ArrayList<String> timePeriodList;
-    HashMap<String, ArrayList<String>> timeSlotList = new HashMap<>();
+    private Context context;
+    private ArrayList<String> timePeriodList;
+    private HashMap<String, ArrayList<String>> timeSlotList = new HashMap<>();
+    private ItemClickListener clickListener;
 
     int selectedPeriod = -1;
     int selectedTime = -1;
 
-    public TimeSlotAdapter(Context context, ArrayList<String> timePeriodList, HashMap<String, ArrayList<String>> timeSlotList){
+    public TimeSlotAdapter(Context context, ArrayList<String> timePeriodList, HashMap<String, ArrayList<String>> timeSlotList, ItemClickListener clickListener){
         this.context = context;
         this.timePeriodList = timePeriodList;
         this.timeSlotList = timeSlotList;
+        this.clickListener = clickListener;
     }
 
     @Override
@@ -56,6 +58,8 @@ public class TimeSlotAdapter extends SectionedRecyclerViewAdapter<TimeSlotAdapte
         viewHolder.timeTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                clickListener.onItemClick(timeItem);
+                //Date, Time and Doctor
                 Toast.makeText(context, timeItem, Toast.LENGTH_SHORT).show();
                 selectedPeriod = i;
                 selectedTime = i1;
@@ -103,5 +107,10 @@ public class TimeSlotAdapter extends SectionedRecyclerViewAdapter<TimeSlotAdapte
             timeHeaderTextView = itemView.findViewById(R.id.timeHeaderTextView);
 
         }
+    }
+
+    public interface ItemClickListener {
+
+        public void onItemClick(String timeItem);
     }
 }

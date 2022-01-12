@@ -7,13 +7,16 @@
         <entry key="..\:/Users/saale/OneDrive - University of Bradford/Documents/Projects/Final Year Project/Medical Centre Appointment Booker/app/src/main/res/drawable/rectangle_outline.xml" value="0.4777777777777778" />
         <entry key="..\:/Users/saale/OneDrive - University of Bradford/Documents/Projects/Final Year Project/Medical Centre Appointment Booker/app/src/main/res/layout/activity_booking.xml" value="0.2793819655521783" />
         <entry key="..\:/Users/saale/OneDrive - University of Bradford/Documents/Projects/Final Year Project/Medical Centre Appointment Booker/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/saale/OneDrive - University of Bradford/Documents/Projects/Final Year Project/Medical Centre Appointment Booker/app/src/main/res/layout/appointment_item.xml" value="0.25" />
         <entry key="..\:/Users/saale/OneDrive - University of Bradford/Documents/Projects/Final Year Project/Medical Centre Appointment Booker/app/src/main/res/layout/doctor_item.xml" value="0.2793819655521783" />
+        <entry key="..\:/Users/saale/OneDrive - University of Bradford/Documents/Projects/Final Year Project/Medical Centre Appointment Booker/app/src/main/res/layout/fragment_appointment_booked.xml" value="0.2848731884057971" />
         <entry key="..\:/Users/saale/OneDrive - University of Bradford/Documents/Projects/Final Year Project/Medical Centre Appointment Booker/app/src/main/res/layout/fragment_appointment_confirmation.xml" value="0.33" />
-        <entry key="..\:/Users/saale/OneDrive - University of Bradford/Documents/Projects/Final Year Project/Medical Centre Appointment Booker/app/src/main/res/layout/fragment_appointment_select.xml" value="0.4601449275362319" />
+        <entry key="..\:/Users/saale/OneDrive - University of Bradford/Documents/Projects/Final Year Project/Medical Centre Appointment Booker/app/src/main/res/layout/fragment_appointment_select.xml" value="0.25" />
         <entry key="..\:/Users/saale/OneDrive - University of Bradford/Documents/Projects/Final Year Project/Medical Centre Appointment Booker/app/src/main/res/layout/fragment_doctor_select.xml" value="0.5744791666666667" />
-        <entry key="..\:/Users/saale/OneDrive - University of Bradford/Documents/Projects/Final Year Project/Medical Centre Appointment Booker/app/src/main/res/layout/fragment_home.xml" value="0.5744791666666667" />
+        <entry key="..\:/Users/saale/OneDrive - University of Bradford/Documents/Projects/Final Year Project/Medical Centre Appointment Booker/app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/Users/saale/OneDrive - University of Bradford/Documents/Projects/Final Year Project/Medical Centre Appointment Booker/app/src/main/res/layout/item_time_slot.xml" value="0.1" />
         <entry key="..\:/Users/saale/OneDrive - University of Bradford/Documents/Projects/Final Year Project/Medical Centre Appointment Booker/app/src/main/res/layout/item_time_slot_header.xml" value="0.1" />
+        <entry key="..\:/Users/saale/OneDrive - University of Bradford/Documents/Projects/Final Year Project/Medical Centre Appointment Booker/app/src/main/res/menu/menu_toolbar.xml" value="0.1425925925925926" />
       </map>
     </option>
   </component>

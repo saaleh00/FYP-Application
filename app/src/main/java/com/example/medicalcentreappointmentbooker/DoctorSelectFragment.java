@@ -3,6 +3,7 @@ package com.example.medicalcentreappointmentbooker;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -20,10 +21,14 @@ import java.util.List;
 
 
 public class DoctorSelectFragment extends Fragment implements DoctorAdapter.ItemClickListener {
+
     private RecyclerView doctorRecyclerView;
+
     private List<String> doctorNames;
     private List<Integer> doctorImages;
+
     private DoctorAdapter adapter;
+
     private AppointmentSelectFragment appointmentSelectFragment;
 
 
@@ -41,6 +46,7 @@ public class DoctorSelectFragment extends Fragment implements DoctorAdapter.Item
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((MainActivity) getActivity()).setActionBarTitle("Select Doctor and Date");
         if (getArguments() != null) {
         }
     }

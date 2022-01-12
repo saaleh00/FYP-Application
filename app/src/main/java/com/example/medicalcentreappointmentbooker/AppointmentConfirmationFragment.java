@@ -55,10 +55,11 @@ public class AppointmentConfirmationFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((MainActivity) getActivity()).setActionBarTitle("Please Confirm");
         if (getArguments() != null) {
             date = getArguments().getString(ARG_DATE);
-            time = getArguments().getString(ARG_DOCTOR);
-            doctor = getArguments().getString(ARG_TIME);
+            time = getArguments().getString(ARG_TIME);
+            doctor = getArguments().getString(ARG_DOCTOR);
         }
     }
 
@@ -81,7 +82,7 @@ public class AppointmentConfirmationFragment extends Fragment {
         confirmConfirmationButton.setOnClickListener(v -> {
             appointmentModel = new AppointmentModel(date, time, doctor);
 
-            appointmentDAO.insert(appointmentModel).addOnSuccessListener(success ->
+            appointmentDAO.create(appointmentModel).addOnSuccessListener(success ->
             {
                 Toast.makeText(getActivity(), "Appointment Successfully Booked", Toast.LENGTH_SHORT).show();
             }).addOnFailureListener(error ->

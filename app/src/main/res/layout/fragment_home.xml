@@ -5,18 +5,22 @@
     android:layout_height="match_parent"
     tools:context=".HomeFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="this is home fragment"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"/>
 
     <Button
         android:id="@+id/BookingActivityButton"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:text="Open Booking"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="Open Booking" />
+
+    <Button
+        android:id="@+id/bookedAppointmentsButton"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/BookingActivityButton"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="Booked Appointments" />
 
 </RelativeLayout>

@@ -11,7 +11,10 @@
         android:id="@+id/appointmentSelectDoctorName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:layout_below="@+id/dateText"
+        android:layout_centerHorizontal="true"
+        android:text="doctor"
+        android:textSize="20sp"
         tools:layout_editor_absoluteX="161dp"
         tools:layout_editor_absoluteY="76dp" />
 
@@ -19,16 +22,16 @@
         android:id="@+id/dateText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="date"
-        android:textSize="30sp"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="20dp"
+        android:text="date"
+        android:textSize="30sp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/timeSlotRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/dateText"
+        android:layout_below="@+id/appointmentSelectDoctorName"
         android:layout_marginTop="33dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="3"

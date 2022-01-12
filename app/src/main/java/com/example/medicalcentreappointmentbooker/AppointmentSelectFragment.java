@@ -59,6 +59,7 @@ public class AppointmentSelectFragment extends Fragment implements TimeSlotAdapt
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((MainActivity) getActivity()).setActionBarTitle("Select Time");
         if (getArguments() != null) {
             doctorName = getArguments().getString(ARG_DOCTOR_NAME);
             selectedDate = getArguments().getString(ARG_SELECT_DATE);

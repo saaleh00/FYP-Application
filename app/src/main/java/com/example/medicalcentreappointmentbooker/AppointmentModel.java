@@ -1,9 +1,15 @@
 package com.example.medicalcentreappointmentbooker;
 
+import com.google.firebase.database.Exclude;
+
 public class AppointmentModel {
     private String date;
     private String time;
     private String doctor;
+    @Exclude
+    private String key;
+
+    public AppointmentModel(){}
 
     public AppointmentModel(String date, String time, String doctor) {
         this.date = date;
@@ -33,5 +39,13 @@ public class AppointmentModel {
 
     public void setDoctor(String doctor) {
         this.doctor = doctor;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }

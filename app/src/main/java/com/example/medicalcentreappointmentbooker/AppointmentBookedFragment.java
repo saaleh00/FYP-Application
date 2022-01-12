@@ -2,42 +2,41 @@ package com.example.medicalcentreappointmentbooker;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 
-public class AppointmentBookedFragment extends Fragment {
+public class AppointmentBookedFragment extends Fragment{
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private RecyclerView bookedAppointmentsRecyclerView;
+    private AppointmentBookedAdapter appointmentBookedAdapter;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private ArrayList<AppointmentModel> appointmentModelArrayList;
+
+    private AppointmentDAO appointmentDAO;
 
     public AppointmentBookedFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AppointmentBookedFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AppointmentBookedFragment newInstance(String param1, String param2) {
+    public static AppointmentBookedFragment newInstance() {
         AppointmentBookedFragment fragment = new AppointmentBookedFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -45,16 +44,50 @@ public class AppointmentBookedFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((MainActivity) getActivity()).setActionBarTitle("Booked Appointments");
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_appointment_booked, container, false);
+        View view = inflater.inflate(R.layout.fragment_appointment_booked, container, false);
+
+        appointmentModelArrayList = new ArrayList<>();
+
+        bookedAppointmentsRecyclerView = view.findViewById(R.id.bookedAppointmentsRecyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        bookedAppointmentsRecyclerView.setLayoutManager(layoutManager);
+
+        appointmentBookedAdapter = new AppointmentBookedAdapter(getActivity(), appointmentModelArrayList);
+        bookedAppointmentsRecyclerView.setAdapter(appointmentBookedAdapter);
+
+        appointmentDAO = new AppointmentDAO();
+
+        loadData();
+
+
+        return view;
+    }
+
+    private void loadData() {
+        appointmentDAO.read().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                appointmentModelArrayList.clear();
+                for(DataSnapshot data : snapshot.getChildren()){
+                    AppointmentModel appointmentModel = data.getValue(AppointmentModel.class);
+                    appointmentModelArrayList.add(appointmentModel);
+                    appointmentModel.setKey(data.getKey());
+                }
+                appointmentBookedAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

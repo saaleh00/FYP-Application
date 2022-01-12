@@ -7,10 +7,15 @@ import androidx.fragment.app.FragmentTransaction;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
+import androidx.appcompat.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity {
+    
+    private Toolbar toolbar;
 
     private HomeFragment homeFragment;
 
@@ -18,15 +23,35 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        toolbar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
 
         homeFragment = new HomeFragment();
         openFragment(homeFragment);
 
+        toolbar.setOnMenuItemClickListener(menuItem -> {
+            switch (menuItem.getItemId()){
+                case R.id.menubar_home:
+                    openFragment(homeFragment);
+                    return true;
+            }
+            return false;
+        });
+
     }
 
-    public void openActivity(Activity bookingActivity){
-        Intent intent = new Intent(this, bookingActivity.getClass());
-        startActivity(intent);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_toolbar, menu);
+
+        return true;
+    }
+
+    public void setActionBarTitle(String title){
+        getSupportActionBar().setTitle(title);
     }
 
     public void openFragment(Fragment fragment) {

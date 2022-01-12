@@ -13,7 +13,10 @@ import android.widget.Button;
 
 public class HomeFragment extends Fragment {
     private Button bookingActivityButton;
+    private Button bookedAppointmentsButton;
+
     private DoctorSelectFragment doctorSelectFragment;
+    private AppointmentBookedFragment appointmentBookedFragment;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -29,6 +32,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((MainActivity) getActivity()).setActionBarTitle("Appointment Booker");
         if (getArguments() != null) {
         }
     }
@@ -39,12 +43,21 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         doctorSelectFragment = new DoctorSelectFragment();
+        appointmentBookedFragment = new AppointmentBookedFragment();
 
         bookingActivityButton = view.findViewById(R.id.BookingActivityButton);
         bookingActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openFragment(doctorSelectFragment);
+            }
+        });
+
+        bookedAppointmentsButton = view.findViewById(R.id.bookedAppointmentsButton);
+        bookedAppointmentsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFragment(appointmentBookedFragment);
             }
         });
 

@@ -10,17 +10,17 @@
         android:id="@+id/BookingActivityButton"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="Open Booking" />
+        android:layout_centerInParent="true"
+        android:text="Open Booking"
+        android:textSize="18sp" />
 
     <Button
         android:id="@+id/bookedAppointmentsButton"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/BookingActivityButton"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="Booked Appointments" />
+        android:layout_centerInParent="true"
+        android:text="Booked Appointments"
+        android:textSize="18sp" />
 
 </RelativeLayout>

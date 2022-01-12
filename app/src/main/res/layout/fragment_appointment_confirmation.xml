@@ -56,8 +56,9 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginEnd="161dp"
+        android:layout_marginEnd="145dp"
         android:layout_marginBottom="50dp"
-        android:text="CONFIRM" />
+        android:text="CONFIRM"
+        android:textSize="18sp" />
 
 </RelativeLayout>

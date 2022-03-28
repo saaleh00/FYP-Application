@@ -1,7 +1,9 @@
 package com.example.medicalcentreappointmentbooker;
 
 import android.app.DatePickerDialog;
+
 import androidx.fragment.app.DialogFragment;
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,9 +16,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -25,23 +37,26 @@ import java.util.HashMap;
 
 public class AppointmentSelectFragment extends Fragment implements TimeSlotAdapter.ItemClickListener{
 
+
     private static final String ARG_DOCTOR_NAME = "doctorName";
     private static final String ARG_SELECT_DATE = "selectedDate";
+
+    private final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(AppointmentModel.class.getSimpleName());
+
 
     private TimeSlotAdapter timeSlotAdapter;
     private AppointmentConfirmationFragment appointmentConfirmationFragment;
 
-    private String doctorName;
-    private String selectedDate;
 
-    private RecyclerView timeSlotRecyclerView;
+    private String doctorName, selectedDate;
 
-    private ArrayList<String> timePeriodList = new ArrayList<>();
-    private HashMap<String, ArrayList<String>> timeSlotList = new HashMap<>();
+    private GridView appointmentSelectGridView;
+    private ArrayList<String> unavailableTimeSlots = new ArrayList<>();
+    private ArrayList<TimeSlot> timeSlotList;
+    private ArrayList<String> timeList = new ArrayList<>();
 
-    private TextView appointmentSelectDoctorName;
-    private TextView dateText;
-    private TextView timeTextView;
+    private TextView appointmentSelectDoctorName, dateText, timeTextView;
 
     public AppointmentSelectFragment() {
         // Required empty public constructor
@@ -70,7 +85,8 @@ public class AppointmentSelectFragment extends Fragment implements TimeSlotAdapt
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_appointment_select, container, false);
-        createTimeLists();
+
+        timeSlotList = new ArrayList<>();
 
         dateText = view.findViewById(R.id.dateText);
         dateText.setText(selectedDate);
@@ -80,53 +96,77 @@ public class AppointmentSelectFragment extends Fragment implements TimeSlotAdapt
 
         timeTextView = view.findViewById(R.id.timeTextView);
 
-        timeSlotRecyclerView = view.findViewById(R.id.timeSlotRecyclerView);
+        appointmentSelectGridView = view.findViewById(R.id.appointmentSelectGridView);
 
-        timeSlotAdapter = new TimeSlotAdapter(getActivity(), timePeriodList, timeSlotList, this);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
-        timeSlotRecyclerView.setLayoutManager(gridLayoutManager);
-        timeSlotAdapter.setLayoutManager(gridLayoutManager);
-
-        timeSlotAdapter.shouldShowHeadersForEmptySections(false);
-
-        timeSlotRecyclerView.setAdapter(timeSlotAdapter);
+        checkTimeSlots(new Callback() {
+            @Override
+            public void onComplete(ArrayList<TimeSlot> unavailableTimeSlots) {
+                timeSlotAdapter = new TimeSlotAdapter(getActivity(), timeSlotList, AppointmentSelectFragment.this);
+                appointmentSelectGridView.setAdapter(timeSlotAdapter);
+            }
+        });
 
         return view;
     }
 
-    public void createTimeLists(){
-        timePeriodList.add("Morning");
-        timePeriodList.add("Afternoon");
-        timePeriodList.add("Evening");
+    public void checkTimeSlots(Callback callback) {
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
-        ArrayList<String> timeList = new ArrayList<>();
-        //Morning
-        timeList.add("09:00 AM");
-        timeList.add("09:30 AM");
-        timeList.add("10:00 AM");
-        timeList.add("10:30 AM");
-        timeList.add("11:00 AM");
-        timeList.add("11:30 AM");
-        timeSlotList.put(timePeriodList.get(0), timeList);
-        //Afternoon
-        timeList = new ArrayList<>();
-        timeList.add("12:00 PM");
-        timeList.add("12:30 PM");
-        timeList.add("13:00 PM");
-        timeList.add("13:30 PM");
-        timeList.add("14:00 PM");
-        timeList.add("14:30 PM");
-        timeList.add("15:00 PM");
-        timeList.add("15:30 PM");
-        timeList.add("16:00 PM");
-        timeSlotList.put(timePeriodList.get(1), timeList);
-        //Evening
-        timeList = new ArrayList<>();
-        timeList.add("16:30 PM");
-        timeList.add("17:00 PM");
-        timeList.add("17:30 PM");
-        timeList.add("18:00 PM");
-        timeSlotList.put(timePeriodList.get(2), timeList);
+                    if (snapshot.hasChild("time")) {
+                        if ((snapshot.child("date").getValue().toString()).equals(selectedDate) &&
+                                (snapshot.child("doctor").getValue().toString()).equals(doctorName)) {
+                            //callback function
+                            String time = snapshot.child("time").getValue().toString();
+                            unavailableTimeSlots.add(time);
+                        }
+                    }
+                }
+                //Morning
+                timeList.add("09:00 AM");
+                timeList.add("09:30 AM");
+                timeList.add("10:00 AM");
+                timeList.add("10:30 AM");
+                timeList.add("11:00 AM");
+                timeList.add("11:30 AM");
+
+                //Afternoon
+                timeList.add("12:00 PM");
+                timeList.add("12:30 PM");
+                timeList.add("13:00 PM");
+                timeList.add("13:30 PM");
+                timeList.add("14:00 PM");
+                timeList.add("14:30 PM");
+                timeList.add("15:00 PM");
+                timeList.add("15:30 PM");
+                timeList.add("16:00 PM");
+
+                //Evening
+                timeList.add("16:30 PM");
+                timeList.add("17:00 PM");
+                timeList.add("17:30 PM");
+                timeList.add("18:00 PM");
+
+                for (String time:
+                        timeList) {
+                    TimeSlot timeSlot;
+                    if (unavailableTimeSlots.contains(time)) {
+                         timeSlot = new TimeSlot(time, false);
+                    } else{
+                        timeSlot = new TimeSlot(time, true);
+                    }
+                    timeSlotList.add(timeSlot);
+                    callback.onComplete(timeSlotList);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("Executive Order", "The read failed: " + databaseError.getDetails());
+            }
+        });
     }
 
     @Override
@@ -137,4 +177,5 @@ public class AppointmentSelectFragment extends Fragment implements TimeSlotAdapt
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
+
 }

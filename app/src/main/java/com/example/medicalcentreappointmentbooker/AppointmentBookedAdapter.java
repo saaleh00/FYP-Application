@@ -18,6 +18,8 @@ public class AppointmentBookedAdapter extends RecyclerView.Adapter<AppointmentBo
 
     private Context context;
 
+    private AppointmentDAO appointmentDAO;
+
     private ArrayList<AppointmentModel> list;
 
 
@@ -45,7 +47,7 @@ public class AppointmentBookedAdapter extends RecyclerView.Adapter<AppointmentBo
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppointmentDAO appointmentDAO = new AppointmentDAO();
+                appointmentDAO = new AppointmentDAO();
                 appointmentDAO.delete(appointmentModel.getKey()).addOnSuccessListener(success ->
                 {
                     Toast.makeText(context, "Appointment Cancelled", Toast.LENGTH_SHORT).show();

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,95 +19,61 @@ import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class TimeSlotAdapter extends SectionedRecyclerViewAdapter<TimeSlotAdapter.ViewHolder> {
+public class TimeSlotAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<String> timePeriodList;
-    private HashMap<String, ArrayList<String>> timeSlotList = new HashMap<>();
+    private LayoutInflater layoutInflater;
+
+    private ArrayList<TimeSlot> timeSlotList;
     private ItemClickListener clickListener;
 
-    int selectedPeriod = -1;
-    int selectedTime = -1;
 
-    public TimeSlotAdapter(Context context, ArrayList<String> timePeriodList, HashMap<String, ArrayList<String>> timeSlotList, ItemClickListener clickListener){
+
+    public TimeSlotAdapter(Context context, ArrayList<TimeSlot> timeSlotList, ItemClickListener clickListener){
         this.context = context;
-        this.timePeriodList = timePeriodList;
         this.timeSlotList = timeSlotList;
         this.clickListener = clickListener;
     }
 
     @Override
-    public int getSectionCount() {
-        return timePeriodList.size();
+    public int getCount() {
+        return timeSlotList.size();
     }
 
     @Override
-    public int getItemCount(int section) {
-        return timeSlotList.get(timePeriodList.get(section)).size();
+    public Object getItem(int position) {
+        return timeSlotList.get(position);
     }
 
     @Override
-    public void onBindHeaderViewHolder(ViewHolder viewHolder, int i) {
-        viewHolder.timeHeaderTextView.setText(timePeriodList.get(i));
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i, int i1, int i2) {
-        String timeItem = timeSlotList.get(timePeriodList.get(i)).get(i1);
-        viewHolder.timeTextView.setText(timeItem);
-        
-        viewHolder.timeTextView.setOnClickListener(new View.OnClickListener() {
+    public View getView(int position, View convertView, ViewGroup parent) {
+        if (layoutInflater == null)
+            layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        if (convertView == null){
+
+            convertView = layoutInflater.inflate(R.layout.item_time_slot, null);
+        }
+        TextView timeSlotTime = convertView.findViewById(R.id.timeTextView);
+
+        timeSlotTime.setText(timeSlotList.get(position).timeSlot);
+        timeSlotTime.setEnabled(timeSlotList.get(position).isAvailable);
+
+        timeSlotTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickListener.onItemClick(timeItem);
+                clickListener.onItemClick(timeSlotList.get(position).timeSlot);
                 //Date, Time and Doctor
-                Toast.makeText(context, timeItem, Toast.LENGTH_SHORT).show();
-                selectedPeriod = i;
-                selectedTime = i1;
                 notifyDataSetChanged();
             }
         });
 
-        if (selectedPeriod == i && selectedTime == i1){
-            viewHolder.timeTextView.setBackground(ContextCompat.getDrawable(context, R.drawable.rectangle_fill));
-            viewHolder.timeTextView.setTextColor(Color.WHITE);
-        }else {
-            viewHolder.timeTextView.setBackground(ContextCompat.getDrawable(context, R.drawable.rectangle_outline));
-            viewHolder.timeTextView.setTextColor(Color.BLACK);
-        }
-    }
-
-    @Override
-    public int getItemViewType(int section, int relativePosition, int absolutePosition) {
-        if (section == 1){
-            return 0;
-        }
-        return super.getItemViewType(section, relativePosition, absolutePosition);
-    }
-
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        int layout;
-        if (viewType == VIEW_TYPE_HEADER){
-            layout = R.layout.item_time_slot_header;
-        }else {
-            layout = R.layout.item_time_slot;
-        }
-        View view = LayoutInflater.from(parent.getContext()).inflate(layout,parent,false);
-        return new ViewHolder(view);
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView timeTextView;
-        TextView timeHeaderTextView;
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            timeTextView = itemView.findViewById(R.id.timeTextView);
-            timeHeaderTextView = itemView.findViewById(R.id.timeHeaderTextView);
-
-        }
+        return convertView;
     }
 
     public interface ItemClickListener {

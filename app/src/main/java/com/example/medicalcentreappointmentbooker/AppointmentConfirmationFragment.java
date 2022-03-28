@@ -25,14 +25,10 @@ public class AppointmentConfirmationFragment extends Fragment {
     private static final String ARG_DOCTOR = "doctor";
 
 
-    private String date;
-    private String time;
-    private String doctor;
+    private String date, time, doctor;
 
 
-    private TextView dateConfirmationTextView;
-    private TextView timeConfirmationTextView;
-    private TextView doctorConfirmationTextView;
+    private TextView dateConfirmationTextView, timeConfirmationTextView, doctorConfirmationTextView;
     private Button confirmConfirmationButton;
 
     AppointmentDAO appointmentDAO;

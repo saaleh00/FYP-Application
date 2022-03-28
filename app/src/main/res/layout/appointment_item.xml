@@ -22,6 +22,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:fontFamily="sans-serif-black"
+                android:textColor="@color/black"
                 android:text="Date"
                 android:textSize="20sp" />
 
@@ -33,6 +34,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="20dp"
                 android:drawablePadding="2dp"
+                android:textColor="@color/black"
                 android:text="Time"
                 android:textSize="20sp" />
 
@@ -44,6 +46,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="20dp"
                 android:drawablePadding="2dp"
+                android:textColor="@color/black"
                 android:text="Doctor"
                 android:textSize="20sp" />
 
@@ -56,8 +59,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="23dp"
-                android:text="CANCEL"
-                android:textColor="@color/red" />
+                android:textColor="@color/red"
+                android:text="CANCEL" />
 
         </RelativeLayout>
 

@@ -35,13 +35,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
-public class AppointmentSelectFragment extends Fragment implements TimeSlotAdapter.ItemClickListener{
+public class AppointmentSelectFragment extends Fragment implements TimeSlotAdapter.ItemClickListener {
 
 
     private static final String ARG_DOCTOR_NAME = "doctorName";
     private static final String ARG_SELECT_DATE = "selectedDate";
 
-    private final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(AppointmentModel.class.getSimpleName());
 
 
@@ -149,12 +148,12 @@ public class AppointmentSelectFragment extends Fragment implements TimeSlotAdapt
                 timeList.add("17:30 PM");
                 timeList.add("18:00 PM");
 
-                for (String time:
+                for (String time :
                         timeList) {
                     TimeSlot timeSlot;
                     if (unavailableTimeSlots.contains(time)) {
-                         timeSlot = new TimeSlot(time, false);
-                    } else{
+                        timeSlot = new TimeSlot(time, false);
+                    } else {
                         timeSlot = new TimeSlot(time, true);
                     }
                     timeSlotList.add(timeSlot);

@@ -2,7 +2,7 @@ package com.example.medicalcentreappointmentbooker;
 
 import java.util.ArrayList;
 
-public interface Callback {
+public interface TimeSlotCallback {
 
     void onComplete(ArrayList<TimeSlot> timeSlotArrayList);
 }

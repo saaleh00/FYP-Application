@@ -3,33 +3,40 @@ package com.example.medicalcentreappointmentbooker;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 
 public class DoctorSelectFragment extends Fragment implements DoctorAdapter.ItemClickListener {
 
     private RecyclerView doctorRecyclerView;
 
-    private List<String> doctorNames;
-    private List<Integer> doctorImages;
+    private ArrayList<Doctor> doctorArrayList;
 
     private DoctorAdapter adapter;
 
     private AppointmentSelectFragment appointmentSelectFragment;
+
+    private final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Doctors");
 
 
     public DoctorSelectFragment() {
@@ -56,22 +63,43 @@ public class DoctorSelectFragment extends Fragment implements DoctorAdapter.Item
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_doctor_select, container, false);
 
-        doctorNames = new ArrayList<>();
-        doctorImages = new ArrayList<>();
-        doctorNames.add("John");
-        doctorNames.add("Who");
-        doctorImages.add(R.drawable.ic_baseline_person_24);
-        doctorImages.add(R.drawable.ic_baseline_person_24);
+        doctorArrayList = new ArrayList<>();
 
-        doctorRecyclerView = view.findViewById(R.id.doctorRecyclerView);
-        adapter = new DoctorAdapter(getActivity(), doctorNames, doctorImages, this);
+        adapter = new DoctorAdapter(getActivity(), doctorArrayList, DoctorSelectFragment.this);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
+        doctorRecyclerView = view.findViewById(R.id.doctorRecyclerView);
         doctorRecyclerView.setLayoutManager(gridLayoutManager);
         doctorRecyclerView.setAdapter(adapter);
 
+        getDoctorList(new DoctorCallback() {
+            @Override
+            public void onComplete(ArrayList<Doctor> doctorNamesArrayList) {
+                adapter.notifyDataSetChanged();
+            }
+        });
 
         return view;
+    }
+
+    public void getDoctorList(DoctorCallback doctorCallback){
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    String doctorName = dataSnapshot.child("name").getValue().toString();
+                    //Get image from firebase
+                    Doctor doctor = new Doctor(doctorName, R.drawable.ic_baseline_person_24);
+                    doctorArrayList.add(doctor);
+                    doctorCallback.onComplete(doctorArrayList);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("Executive Order", "The read failed: " + error.getDetails());
+            }
+        });
     }
 
     @Override

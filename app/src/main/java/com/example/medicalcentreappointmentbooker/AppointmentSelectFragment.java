@@ -1,39 +1,24 @@
 package com.example.medicalcentreappointmentbooker;
 
-import android.app.DatePickerDialog;
-
-import androidx.fragment.app.DialogFragment;
-
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
 
 public class AppointmentSelectFragment extends Fragment implements TimeSlotAdapter.ItemClickListener {
 
@@ -97,7 +82,7 @@ public class AppointmentSelectFragment extends Fragment implements TimeSlotAdapt
 
         appointmentSelectGridView = view.findViewById(R.id.appointmentSelectGridView);
 
-        checkTimeSlots(new Callback() {
+        checkTimeSlots(new TimeSlotCallback() {
             @Override
             public void onComplete(ArrayList<TimeSlot> unavailableTimeSlots) {
                 timeSlotAdapter = new TimeSlotAdapter(getActivity(), timeSlotList, AppointmentSelectFragment.this);
@@ -108,7 +93,7 @@ public class AppointmentSelectFragment extends Fragment implements TimeSlotAdapt
         return view;
     }
 
-    public void checkTimeSlots(Callback callback) {
+    public void checkTimeSlots(TimeSlotCallback timeSlotCallback) {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -157,7 +142,7 @@ public class AppointmentSelectFragment extends Fragment implements TimeSlotAdapt
                         timeSlot = new TimeSlot(time, true);
                     }
                     timeSlotList.add(timeSlot);
-                    callback.onComplete(timeSlotList);
+                    timeSlotCallback.onComplete(timeSlotList);
                 }
             }
 

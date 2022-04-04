@@ -10,25 +10,22 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.ViewHolder> {
 
-    private List<String> doctorNames;
-    //list of integer to get images from drawable folder -> need to change to get images from database
-    private List<Integer> doctorImages;
+    private ArrayList<Doctor> doctorArrayList;
     private LayoutInflater inflater;
     private ItemClickListener clickListener;
 
-    public DoctorAdapter(Context context, List<String> doctorNames, List<Integer> doctorImages) {
-        this.doctorNames = doctorNames;
-        this.doctorImages = doctorImages;
+    public DoctorAdapter(Context context, ArrayList<Doctor> doctorArrayList) {
+        this.doctorArrayList = doctorArrayList;
         this.inflater = LayoutInflater.from(context);
     }
 
-    public DoctorAdapter(Context context, List<String> doctorNames, List<Integer> doctorImages, ItemClickListener clickListener) {
-        this.doctorNames = doctorNames;
-        this.doctorImages = doctorImages;
+    public DoctorAdapter(Context context, ArrayList<Doctor> doctorArrayList, ItemClickListener clickListener) {
+        this.doctorArrayList = doctorArrayList;
         this.inflater = LayoutInflater.from(context);
         this.clickListener = clickListener;
     }
@@ -43,13 +40,13 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull DoctorAdapter.ViewHolder holder, int position) {
-        holder.doctorName.setText(doctorNames.get(position));
-        holder.doctorImage.setImageResource(doctorImages.get(position));
+        holder.doctorName.setText(doctorArrayList.get(position).getDoctorName());
+        holder.doctorImage.setImageResource(doctorArrayList.get(position).getDoctorProfileImage());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickListener.onItemClick(doctorNames.get(position));
+                clickListener.onItemClick(doctorArrayList.get(position).getDoctorName());
             }
         });
 
@@ -57,7 +54,7 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return doctorNames.size();
+        return doctorArrayList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

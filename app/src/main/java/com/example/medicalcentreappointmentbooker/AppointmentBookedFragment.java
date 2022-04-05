@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -76,10 +77,14 @@ public class AppointmentBookedFragment extends Fragment{
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 appointmentModelArrayList.clear();
+                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                String userID = firebaseAuth.getCurrentUser().getUid();
                 for(DataSnapshot data : snapshot.getChildren()){
                     AppointmentModel appointmentModel = data.getValue(AppointmentModel.class);
-                    appointmentModelArrayList.add(appointmentModel);
-                    appointmentModel.setKey(data.getKey());
+                    if (appointmentModel.getUserID().equals(userID)) {
+                        appointmentModelArrayList.add(appointmentModel);
+                        appointmentModel.setKey(data.getKey());
+                    }
                 }
                 appointmentBookedAdapter.notifyDataSetChanged();
             }

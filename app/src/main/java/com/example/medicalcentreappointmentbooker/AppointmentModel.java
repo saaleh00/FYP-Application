@@ -6,15 +6,19 @@ public class AppointmentModel {
     private String date;
     private String time;
     private String doctor;
+    private String userID;
     @Exclude
     private String key;
 
+
+
     public AppointmentModel(){}
 
-    public AppointmentModel(String date, String time, String doctor) {
+    public AppointmentModel(String date, String time, String doctor, String userID) {
         this.date = date;
         this.time = time;
         this.doctor = doctor;
+        this.userID = userID;
     }
 
     public String getDate() {
@@ -47,5 +51,13 @@ public class AppointmentModel {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 }

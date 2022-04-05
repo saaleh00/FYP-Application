@@ -3,6 +3,7 @@ package com.example.medicalcentreappointmentbooker;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -25,7 +27,7 @@ public class AppointmentConfirmationFragment extends Fragment {
     private static final String ARG_DOCTOR = "doctor";
 
 
-    private String date, time, doctor;
+    private String date, time, doctor, userID;
 
 
     private TextView dateConfirmationTextView, timeConfirmationTextView, doctorConfirmationTextView;
@@ -33,6 +35,9 @@ public class AppointmentConfirmationFragment extends Fragment {
 
     AppointmentDAO appointmentDAO;
 
+    private AppointmentBookedFragment appointmentBookedFragment;
+
+    private FirebaseAuth firebaseAuth;
 
     public AppointmentConfirmationFragment() {
         // Required empty public constructor
@@ -75,11 +80,17 @@ public class AppointmentConfirmationFragment extends Fragment {
 
         appointmentDAO = new AppointmentDAO();
 
+        appointmentBookedFragment = new AppointmentBookedFragment();
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        userID = firebaseAuth.getCurrentUser().getUid();
+
         confirmConfirmationButton.setOnClickListener(v -> {
-            appointmentModel = new AppointmentModel(date, time, doctor);
+            appointmentModel = new AppointmentModel(date, time, doctor, userID);
 
             appointmentDAO.create(appointmentModel).addOnSuccessListener(success ->
             {
+                openFragment(appointmentBookedFragment);
                 Toast.makeText(getActivity(), "Appointment Successfully Booked", Toast.LENGTH_SHORT).show();
             }).addOnFailureListener(error ->
             {
@@ -89,5 +100,11 @@ public class AppointmentConfirmationFragment extends Fragment {
         });
 
         return view;
+    }
+
+    public void openFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.container, fragment);
+        fragmentTransaction.commit();
     }
 }

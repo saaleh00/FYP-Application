@@ -46,7 +46,7 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.ViewHolder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickListener.onItemClick(doctorArrayList.get(position).getDoctorName());
+                clickListener.onItemClick(doctorArrayList.get(position).getDoctorName(), doctorArrayList.get(position).getDoctorID());
             }
         });
 
@@ -76,6 +76,6 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.ViewHolder
 
     public interface ItemClickListener {
 
-        public void onItemClick(String s);
+        public void onItemClick(String doctorName, String doctorID);
     }
 }

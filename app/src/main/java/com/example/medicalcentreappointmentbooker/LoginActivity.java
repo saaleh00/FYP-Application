@@ -92,7 +92,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (task.isSuccessful()) {
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-                    if (user.isEmailVerified()) {
+//                    if (user.isEmailVerified()) {
+                    if (true) {
                         directToUserPage();
                         finish();
                     } else {

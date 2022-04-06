@@ -123,7 +123,7 @@ public class CreateDoctorFragment extends Fragment {
                         if (task.isSuccessful()){
                             User user = new User(nameInput, ageInput, emailInput, "doctor");
 
-                            FirebaseDatabase.getInstance().getReference("Doctors")
+                            FirebaseDatabase.getInstance().getReference("Users")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                     .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override

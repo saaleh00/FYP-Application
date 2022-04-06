@@ -36,7 +36,7 @@ public class DoctorSelectFragment extends Fragment implements DoctorAdapter.Item
 
     private AppointmentSelectFragment appointmentSelectFragment;
 
-    private final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Doctors");
+    private final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
 
 
     public DoctorSelectFragment() {
@@ -74,7 +74,7 @@ public class DoctorSelectFragment extends Fragment implements DoctorAdapter.Item
 
         getDoctorList(new DoctorCallback() {
             @Override
-            public void onComplete(ArrayList<Doctor> doctorNamesArrayList) {
+            public void onComplete(ArrayList<Doctor> doctorArrayList) {
                 adapter.notifyDataSetChanged();
             }
         });
@@ -87,11 +87,14 @@ public class DoctorSelectFragment extends Fragment implements DoctorAdapter.Item
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    String doctorName = dataSnapshot.child("name").getValue().toString();
-                    //Get image from firebase
-                    Doctor doctor = new Doctor(doctorName, R.drawable.ic_baseline_person_24);
-                    doctorArrayList.add(doctor);
-                    doctorCallback.onComplete(doctorArrayList);
+                    if (dataSnapshot.child("role").getValue().equals("doctor")) {
+                        String doctorName = dataSnapshot.child("name").getValue().toString();
+                        String doctorID = dataSnapshot.getKey();
+                        //Get image from firebase
+                        Doctor doctor = new Doctor(doctorName, R.drawable.ic_baseline_person_24, doctorID);
+                        doctorArrayList.add(doctor);
+                        doctorCallback.onComplete(doctorArrayList);
+                    }
                 }
             }
 
@@ -103,7 +106,7 @@ public class DoctorSelectFragment extends Fragment implements DoctorAdapter.Item
     }
 
     @Override
-    public void onItemClick(String s) {
+    public void onItemClick(String doctorName, String doctorID) {
         DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -113,7 +116,7 @@ public class DoctorSelectFragment extends Fragment implements DoctorAdapter.Item
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
 
-                appointmentSelectFragment = AppointmentSelectFragment.newInstance(s, currentDateString);
+                appointmentSelectFragment = AppointmentSelectFragment.newInstance(doctorName, doctorID,currentDateString);
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.container, appointmentSelectFragment);
                 fragmentTransaction.addToBackStack(null);

@@ -6,6 +6,8 @@ public class AppointmentModel {
     private String date;
     private String time;
     private String doctor;
+    private String patient;
+    private String doctorID;
     private String userID;
     @Exclude
     private String key;
@@ -14,10 +16,12 @@ public class AppointmentModel {
 
     public AppointmentModel(){}
 
-    public AppointmentModel(String date, String time, String doctor, String userID) {
+    public AppointmentModel(String date, String time, String doctor, String patient , String doctorID , String userID) {
         this.date = date;
         this.time = time;
         this.doctor = doctor;
+        this.patient = patient;
+        this.doctorID = doctorID;
         this.userID = userID;
     }
 
@@ -45,12 +49,16 @@ public class AppointmentModel {
         this.doctor = doctor;
     }
 
-    public String getKey() {
-        return key;
+    public String getPatient() {
+        return patient;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setPatient(String patient) {
+        this.patient = patient;
+    }
+
+    public String getDoctorID() {
+        return doctorID;
     }
 
     public String getUserID() {
@@ -59,5 +67,13 @@ public class AppointmentModel {
 
     public void setUserID(String userID) {
         this.userID = userID;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }

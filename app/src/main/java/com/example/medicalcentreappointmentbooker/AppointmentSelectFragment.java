@@ -24,6 +24,7 @@ public class AppointmentSelectFragment extends Fragment implements TimeSlotAdapt
 
 
     private static final String ARG_DOCTOR_NAME = "doctorName";
+    private static final String ARG_DOCTOR_ID = "doctorID";
     private static final String ARG_SELECT_DATE = "selectedDate";
 
     private final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(AppointmentModel.class.getSimpleName());
@@ -33,7 +34,7 @@ public class AppointmentSelectFragment extends Fragment implements TimeSlotAdapt
     private AppointmentConfirmationFragment appointmentConfirmationFragment;
 
 
-    private String doctorName, selectedDate;
+    private String doctorName, doctorID,selectedDate;
 
     private GridView appointmentSelectGridView;
     private ArrayList<String> unavailableTimeSlots = new ArrayList<>();
@@ -46,10 +47,11 @@ public class AppointmentSelectFragment extends Fragment implements TimeSlotAdapt
         // Required empty public constructor
     }
 
-    public static AppointmentSelectFragment newInstance(String doctorName, String selectedDate) {
+    public static AppointmentSelectFragment newInstance(String doctorName, String doctorID,String selectedDate) {
         AppointmentSelectFragment fragment = new AppointmentSelectFragment();
         Bundle args = new Bundle();
         args.putString(ARG_DOCTOR_NAME, doctorName);
+        args.putString(ARG_DOCTOR_ID, doctorID);
         args.putString(ARG_SELECT_DATE, selectedDate);
         fragment.setArguments(args);
         return fragment;
@@ -61,6 +63,7 @@ public class AppointmentSelectFragment extends Fragment implements TimeSlotAdapt
         ((MainActivity) getActivity()).setActionBarTitle("Select Time");
         if (getArguments() != null) {
             doctorName = getArguments().getString(ARG_DOCTOR_NAME);
+            doctorID = getArguments().getString(ARG_DOCTOR_ID);
             selectedDate = getArguments().getString(ARG_SELECT_DATE);
         }
     }
@@ -155,7 +158,7 @@ public class AppointmentSelectFragment extends Fragment implements TimeSlotAdapt
 
     @Override
     public void onItemClick(String timeItem) {
-        appointmentConfirmationFragment = AppointmentConfirmationFragment.newInstance(selectedDate, timeItem, doctorName);
+        appointmentConfirmationFragment = AppointmentConfirmationFragment.newInstance(selectedDate, timeItem, doctorName, doctorID);
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.container, appointmentConfirmationFragment);
         fragmentTransaction.addToBackStack(null);

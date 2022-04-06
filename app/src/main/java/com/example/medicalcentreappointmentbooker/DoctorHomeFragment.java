@@ -30,6 +30,8 @@ public class DoctorHomeFragment extends Fragment {
 
     private Button viewBookingsButton;
 
+    private DoctorAppointmentBookedFragment doctorAppointmentBookedFragment;
+
     public DoctorHomeFragment() {
         // Required empty public constructor
     }
@@ -44,7 +46,6 @@ public class DoctorHomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((AdminActivity) getActivity()).setActionBarTitle("Doctor Page");
         if (getArguments() != null) {
         }
     }
@@ -77,11 +78,13 @@ public class DoctorHomeFragment extends Fragment {
             }
         });
 
+        doctorAppointmentBookedFragment = new DoctorAppointmentBookedFragment();
+
         viewBookingsButton = view.findViewById(R.id.doctorViewBookings);
         viewBookingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "view bookings", Toast.LENGTH_SHORT).show();
+                openFragment(doctorAppointmentBookedFragment);
             }
         });
 

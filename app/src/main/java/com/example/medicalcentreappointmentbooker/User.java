@@ -12,4 +12,16 @@ public class User {
         this.email = email;
         this.role = role;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public String getEmail() {
+        return email;
+    }
 }

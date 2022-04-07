@@ -28,9 +28,11 @@ public class AdminHomeFragment extends Fragment {
     private DatabaseReference databaseReference;
     private String userID;
 
-    private Button addDoctorButton;
+    private Button addDoctorButton, userPageButton, doctorPageButton;
 
     private CreateDoctorFragment createDoctorFragment;
+    private AdminUserFragment adminUserFragment;
+    private AdminDoctorFragment adminDoctorFragment;
 
     public AdminHomeFragment() {
         // Required empty public constructor
@@ -80,12 +82,30 @@ public class AdminHomeFragment extends Fragment {
         });
 
         createDoctorFragment = new CreateDoctorFragment();
+        adminUserFragment = new AdminUserFragment();
+        adminDoctorFragment = new AdminDoctorFragment();
 
         addDoctorButton = view.findViewById(R.id.adminAddDoctor);
         addDoctorButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openFragment(createDoctorFragment);
+            }
+        });
+
+        userPageButton = view.findViewById(R.id.adminUserButton);
+        userPageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFragment(adminUserFragment);
+            }
+        });
+
+        doctorPageButton = view.findViewById(R.id.adminDoctorButton);
+        doctorPageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFragment(adminDoctorFragment);
             }
         });
 

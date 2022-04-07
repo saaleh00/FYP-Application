@@ -19,11 +19,6 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.ViewHolder
     private LayoutInflater inflater;
     private ItemClickListener clickListener;
 
-    public DoctorAdapter(Context context, ArrayList<Doctor> doctorArrayList) {
-        this.doctorArrayList = doctorArrayList;
-        this.inflater = LayoutInflater.from(context);
-    }
-
     public DoctorAdapter(Context context, ArrayList<Doctor> doctorArrayList, ItemClickListener clickListener) {
         this.doctorArrayList = doctorArrayList;
         this.inflater = LayoutInflater.from(context);

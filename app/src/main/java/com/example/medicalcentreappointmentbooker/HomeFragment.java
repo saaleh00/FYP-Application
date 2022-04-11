@@ -28,11 +28,11 @@ public class HomeFragment extends Fragment {
     private DatabaseReference databaseReference;
     private String userID;
 
-    private Button bookingActivityButton;
-    private Button bookedAppointmentsButton;
+    private Button bookingActivityButton, bookedAppointmentsButton, userProfileButton;
 
     private DoctorSelectFragment doctorSelectFragment;
     private AppointmentBookedFragment appointmentBookedFragment;
+    private UserProfileFragment userProfileFragment;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -83,6 +83,7 @@ public class HomeFragment extends Fragment {
 
         doctorSelectFragment = new DoctorSelectFragment();
         appointmentBookedFragment = new AppointmentBookedFragment();
+        userProfileFragment = new UserProfileFragment();
 
         bookingActivityButton = view.findViewById(R.id.BookingActivityButton);
         bookingActivityButton.setOnClickListener(new View.OnClickListener() {
@@ -97,6 +98,14 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 openFragment(appointmentBookedFragment);
+            }
+        });
+
+        userProfileButton = view.findViewById(R.id.userProfileButton);
+        userProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFragment(userProfileFragment);
             }
         });
 

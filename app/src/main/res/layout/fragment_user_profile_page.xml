@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UserProfileFragment">
+    tools:context=".UserProfilePageFragment">
 
     <TextView
         android:id="@+id/userProfileBanner"
@@ -32,15 +32,16 @@
         app:layout_constraintRight_toRightOf="parent" />
 
 
-    <EditText
-        android:id="@+id/userProfileHeight"
+
+
+    <TextView
+        android:id="@+id/height"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:layout_marginRight="200dp"
         android:ems="10"
-        android:hint="Height"
-        android:inputType="number"
+        android:text="Height:"
         android:textSize="22sp"
         app:layout_constraintHorizontal_bias="0.262"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -48,10 +49,24 @@
         app:layout_constraintTop_toBottomOf="@+id/userProfileName" />
 
     <TextView
+        android:id="@+id/userProfileHeight"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_marginRight="190dp"
+        android:ems="10"
+        android:text="ACTUAL"
+        android:textSize="22sp"
+        app:layout_constraintHorizontal_bias="0.262"
+        app:layout_constraintLeft_toRightOf="@id/height"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userProfileName" />
+
+    <TextView
         android:id="@+id/heightCM"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="60dp"
         android:text="CM"
         android:textAlignment="center"
         android:textSize="25sp"
@@ -60,26 +75,43 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userProfileName" />
 
-    <EditText
-        android:id="@+id/userProfileWeight"
+
+
+
+
+    <TextView
+        android:id="@+id/weight"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_marginRight="200dp"
         android:ems="10"
-        android:hint="Weight"
-        android:inputType="number"
+        android:text="Weight:"
         android:textSize="22sp"
         app:layout_constraintHorizontal_bias="0.262"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userProfileHeight"  />
+        app:layout_constraintTop_toBottomOf="@+id/userProfileHeight" />
+
+    <TextView
+        android:id="@+id/userProfileWeight"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="190dp"
+        android:ems="10"
+        android:text="ACTUAL"
+        android:textSize="22sp"
+        app:layout_constraintHorizontal_bias="0.262"
+        app:layout_constraintLeft_toRightOf="@id/weight"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userProfileHeight" />
 
     <TextView
         android:id="@+id/weightKG"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="30dp"
         android:text="KG"
         android:textAlignment="center"
         android:textSize="25sp"
@@ -88,42 +120,53 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userProfileHeight" />
 
-    <Spinner
-        android:id="@+id/userProfileBlood"
-        android:layout_width="wrap_content"
+
+
+
+    <TextView
+        android:id="@+id/bloodType"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:layout_marginRight="300dp"
-        android:tooltipText="Blood Type"
+        android:layout_marginRight="200dp"
+        android:ems="10"
+        android:text="Blood Type:"
+        android:textSize="22sp"
+        app:layout_constraintHorizontal_bias="0.262"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userProfileWeight"/>
+        app:layout_constraintTop_toBottomOf="@+id/userProfileWeight" />
+
+    <TextView
+        android:id="@+id/userProfileBlood"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="190dp"
+        android:ems="10"
+        android:text="ACTUAL"
+        android:textSize="22sp"
+        app:layout_constraintHorizontal_bias="0.262"
+        app:layout_constraintLeft_toRightOf="@id/bloodType"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userProfileWeight" />
+
+
+
 
     <Button
-        android:id="@+id/userProfileUpdateButton"
+        android:id="@+id/userProfileChangeButton"
         android:layout_width="200dp"
         android:layout_height="80dp"
         android:layout_marginTop="40dp"
         android:backgroundTint="@color/bright_blue"
-        android:text="Update Information"
+        android:text="Change Information"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userProfileBlood" />
-
-    <ProgressBar
-        android:id="@+id/userProfileProgressBar"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent = "true"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -54,7 +54,7 @@
         app:layout_constraintVertical_bias="0.05" />
 
     <Button
-        android:id="@+id/userProfileButton"
+        android:id="@+id/homeUserProfileButton"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:text="Profile Page"

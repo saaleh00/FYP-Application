@@ -32,7 +32,7 @@ public class HomeFragment extends Fragment {
 
     private DoctorSelectFragment doctorSelectFragment;
     private AppointmentBookedFragment appointmentBookedFragment;
-    private UserProfileFragment userProfileFragment;
+    private UserProfilePageFragment userProfilePageFragment;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -83,7 +83,7 @@ public class HomeFragment extends Fragment {
 
         doctorSelectFragment = new DoctorSelectFragment();
         appointmentBookedFragment = new AppointmentBookedFragment();
-        userProfileFragment = new UserProfileFragment();
+        userProfilePageFragment = new UserProfilePageFragment();
 
         bookingActivityButton = view.findViewById(R.id.BookingActivityButton);
         bookingActivityButton.setOnClickListener(new View.OnClickListener() {
@@ -101,11 +101,11 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        userProfileButton = view.findViewById(R.id.userProfileButton);
+        userProfileButton = view.findViewById(R.id.homeUserProfileButton);
         userProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openFragment(userProfileFragment);
+                openFragment(userProfilePageFragment);
             }
         });
 

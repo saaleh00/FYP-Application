@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,12 +29,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class UserProfileFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class UserProfileUpdateFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
 
     private static final String ARG_NAME = "userName";
 
     private EditText userHeightInput, userWeightInput;
+    private TextView userUpdateName;
     private Spinner bloodTypeSpinner;
     private Button updateButton;
     private ProgressBar progressBar;
@@ -41,17 +43,19 @@ public class UserProfileFragment extends Fragment implements AdapterView.OnItemS
     private String userName, userBloodType;
     private int userHeight, userWeight;
 
+    private UserProfilePageFragment userProfilePageFragment;
+
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = database.getReference("Users");
 
 
-    public UserProfileFragment() {
+    public UserProfileUpdateFragment() {
         // Required empty public constructor
     }
 
 
-    public static UserProfileFragment newInstance(String userName) {
-        UserProfileFragment fragment = new UserProfileFragment();
+    public static UserProfileUpdateFragment newInstance(String userName) {
+        UserProfileUpdateFragment fragment = new UserProfileUpdateFragment();
         Bundle args = new Bundle();
         args.putString(ARG_NAME, userName);
         fragment.setArguments(args);
@@ -69,20 +73,25 @@ public class UserProfileFragment extends Fragment implements AdapterView.OnItemS
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_user_profile_update, container, false);
 
-        userHeightInput = view.findViewById(R.id.userProfileHeight);
-        userWeightInput = view.findViewById(R.id.userProfileWeight);
+        userHeightInput = view.findViewById(R.id.userUpdateHeight);
+        userWeightInput = view.findViewById(R.id.userUpdateWeight);
 
-        updateButton = view.findViewById(R.id.userProfileUpdateButton);
-        progressBar = view.findViewById(R.id.userProfileProgressBar);
+        userUpdateName = view.findViewById(R.id.userUpdateName);
+        userUpdateName.setText(userName);
 
-        bloodTypeSpinner = (Spinner) view.findViewById(R.id.userProfileBlood);
+        updateButton = view.findViewById(R.id.userUpdateButton);
+        progressBar = view.findViewById(R.id.userUpdateProgressBar);
+
+        bloodTypeSpinner = (Spinner) view.findViewById(R.id.userUpdateBlood);
         ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.blood_type_array, R.layout.support_simple_spinner_dropdown_item);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         bloodTypeSpinner.setAdapter(arrayAdapter);
         bloodTypeSpinner.setOnItemSelectedListener(this);
+
+        userProfilePageFragment = new UserProfilePageFragment();
 
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,6 +132,8 @@ public class UserProfileFragment extends Fragment implements AdapterView.OnItemS
                         if (task.isSuccessful()) {
                             progressBar.setVisibility(View.GONE);
                             //What to do after updating page
+                            openFragment(userProfilePageFragment);
+
                         } else {
                             Toast.makeText(getActivity(), "Failed to update", Toast.LENGTH_LONG).show();
                         }
@@ -142,5 +153,11 @@ public class UserProfileFragment extends Fragment implements AdapterView.OnItemS
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    public void openFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.container, fragment);
+        fragmentTransaction.commit();
     }
 }

@@ -26,9 +26,10 @@ import com.google.firebase.database.ValueEventListener;
 public class UserProfilePageFragment extends Fragment {
 
     private TextView userProfileName, userProfileHeight, userProfileWeight, userProfileBlood;
-    private Button userProfileChangeButton;
+    private Button userProfileChangeButton, userProfileEmailButton;
 
     private UserProfileUpdateFragment userProfileUpdateFragment;
+    private UserChangeEmailFragment userChangeEmailFragment;
 
     private final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
 
@@ -61,6 +62,7 @@ public class UserProfilePageFragment extends Fragment {
         userProfileBlood = view.findViewById(R.id.userProfileBlood);
 
         userProfileChangeButton = view.findViewById(R.id.userProfileChangeButton);
+        userProfileEmailButton = view.findViewById(R.id.userProfileEmailButton);
 
         loadData(new UserProfileCallback() {
             @Override
@@ -75,6 +77,13 @@ public class UserProfilePageFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         openFragment(userProfileUpdateFragment);
+                    }
+                });
+                userChangeEmailFragment = new UserChangeEmailFragment();
+                userProfileEmailButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        openFragment(userChangeEmailFragment);
                     }
                 });
             }

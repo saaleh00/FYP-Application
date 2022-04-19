@@ -16,11 +16,6 @@ public class AppointmentDAO {
         databaseReference = database.getReference(AppointmentModel.class.getSimpleName());
     }
 
-//    public Task<Void> create(AppointmentModel appointmentModel) {
-//        //can throw exception here
-//        return databaseReference.push().setValue(appointmentModel);
-//    }
-
     public Task<Void> create(AppointmentModel appointmentModel) {
         //can throw exception here
         return databaseReference.push().setValue(appointmentModel);

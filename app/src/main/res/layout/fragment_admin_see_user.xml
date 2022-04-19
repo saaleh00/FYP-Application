@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AdminSeeUserFragment">
+
+    <TextView
+        android:id="@+id/statUserBanner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:fontFamily="sans-serif-black"
+        android:text="User Statistics"
+        android:textAlignment="center"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/statUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="username"
+        android:textSize="25sp"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@+id/statUserBanner"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+
+    <TextView
+        android:id="@+id/height"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:text="Height:"
+        android:textSize="22sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statUserName" />
+
+    <TextView
+        android:id="@+id/statUserHeight"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:text="ACTUAL"
+        android:textSize="22sp"
+        app:layout_constraintLeft_toRightOf="@id/height"
+        app:layout_constraintTop_toBottomOf="@+id/statUserName" />
+
+    <TextView
+        android:id="@+id/weight"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:text="Weight:"
+        android:textSize="22sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statUserHeight" />
+
+
+    <TextView
+        android:id="@+id/statUserWeight"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:text="ACTUAL"
+        android:textSize="22sp"
+        app:layout_constraintLeft_toRightOf="@id/weight"
+        app:layout_constraintTop_toBottomOf="@+id/statUserHeight" />
+
+    <TextView
+        android:id="@+id/bloodType"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:text="Blood Type:"
+        android:textSize="22sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statUserWeight" />
+
+
+    <TextView
+        android:id="@+id/statUserBlood"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:text="ACTUAL"
+        android:textSize="22sp"
+        app:layout_constraintLeft_toRightOf="@id/bloodType"
+        app:layout_constraintTop_toBottomOf="@+id/statUserWeight" />
+
+    <TextView
+        android:id="@+id/age"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:text="Age: "
+        android:textSize="22sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statUserBlood" />
+
+
+    <TextView
+        android:id="@+id/statUserAge"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:text="ACTUAL"
+        android:textSize="22sp"
+        app:layout_constraintLeft_toRightOf="@id/age"
+        app:layout_constraintTop_toBottomOf="@+id/statUserBlood" />
+
+    <TextView
+        android:id="@+id/dateOfAccount"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:text="Account Creation:"
+        android:textSize="22sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statUserAge" />
+
+    <TextView
+        android:id="@+id/statUserDate"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:text="ACTUAL"
+        android:textSize="22sp"
+        app:layout_constraintLeft_toRightOf="@id/dateOfAccount"
+        app:layout_constraintTop_toBottomOf="@+id/statUserAge" />
+
+    <TextView
+        android:id="@+id/noOfAppointments"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="40dp"
+        android:ems="10"
+        android:text="No. of Appointments:"
+        android:textSize="22sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statUserDate" />
+
+    <TextView
+        android:id="@+id/statUserAppointments"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="40dp"
+        android:ems="10"
+        android:text="ACTUAL"
+        android:textSize="22sp"
+        app:layout_constraintLeft_toRightOf="@id/noOfAppointments"
+        app:layout_constraintTop_toBottomOf="@+id/statUserDate" />
+
+    <TextView
+        android:id="@+id/noOfCancellations"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="50dp"
+        android:ems="10"
+        android:text="No. of Cancellations:"
+        android:textSize="22sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statUserAppointments" />
+
+    <TextView
+        android:id="@+id/statUserCancellations"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="50dp"
+        android:ems="10"
+        android:text="ACTUAL"
+        android:textSize="22sp"
+        app:layout_constraintLeft_toRightOf="@id/noOfCancellations"
+        app:layout_constraintTop_toBottomOf="@+id/statUserAppointments" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

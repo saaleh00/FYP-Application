@@ -102,6 +102,12 @@ public class RegisterUserActivity extends AppCompatActivity implements View.OnCl
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()){
+                                        long timeStamp = FirebaseAuth.getInstance().getCurrentUser().getMetadata().getCreationTimestamp();
+                                        UserStatistic userStats = new UserStatistic(nameInput, 0, 0, timeStamp);
+
+                                        FirebaseDatabase.getInstance().getReference("Statistics").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                                .setValue(userStats);
+
                                         Toast.makeText(RegisterUserActivity.this, "User successfully registered", Toast.LENGTH_LONG).show();
                                         startActivity(new Intent(RegisterUserActivity.this, LoginActivity.class));
                                         finish();
@@ -115,6 +121,7 @@ public class RegisterUserActivity extends AppCompatActivity implements View.OnCl
                             Toast.makeText(RegisterUserActivity.this, "Failed to register user", Toast.LENGTH_LONG).show();
                             registerProgressBar.setVisibility(View.GONE);
                         }
+
                     }
                 });
 

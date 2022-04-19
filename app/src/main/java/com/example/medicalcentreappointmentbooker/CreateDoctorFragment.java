@@ -21,6 +21,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.security.Timestamp;
+import java.sql.Date;
+import java.time.Instant;
+
 
 public class CreateDoctorFragment extends Fragment {
 
@@ -129,6 +133,12 @@ public class CreateDoctorFragment extends Fragment {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()){
+
+                                        UserStatistic userStats = new UserStatistic(nameInput, 0, 0, System.currentTimeMillis());
+
+                                        FirebaseDatabase.getInstance().getReference("Statistics").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                                .setValue(userStats);
+
                                         Toast.makeText(getActivity(), "User successfully registered", Toast.LENGTH_LONG).show();
                                         //Change fragment to doctor list fragment or simply refresh add doctor fragment
                                     } else{

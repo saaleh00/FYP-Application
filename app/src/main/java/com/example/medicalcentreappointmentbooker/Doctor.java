@@ -15,8 +15,9 @@ public class Doctor {
     }
 
 
-    Doctor(String doctorName, String doctorAge, String doctorEmail, Integer doctorProfileImage){
+    Doctor(String doctorName, String doctorID,String doctorAge, String doctorEmail, Integer doctorProfileImage){
         this.doctorName = doctorName;
+        this.doctorID = doctorID;
         this.doctorAge = doctorAge;
         this.doctorEmail = doctorEmail;
         this.doctorProfileImage = doctorProfileImage;

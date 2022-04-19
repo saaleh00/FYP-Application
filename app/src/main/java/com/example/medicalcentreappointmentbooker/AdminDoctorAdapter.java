@@ -16,10 +16,12 @@ public class AdminDoctorAdapter extends RecyclerView.Adapter<AdminDoctorAdapter.
 
     private ArrayList<Doctor> doctorArrayList;
     private LayoutInflater inflater;
+    private ItemClickListener clickListener;
 
-    public AdminDoctorAdapter(Context context, ArrayList<Doctor> doctorArrayList){
+    public AdminDoctorAdapter(Context context, ArrayList<Doctor> doctorArrayList, ItemClickListener clickListener){
         this.doctorArrayList = doctorArrayList;
         this.inflater = LayoutInflater.from(context);
+        this.clickListener = clickListener;
     }
 
     @NonNull
@@ -38,6 +40,12 @@ public class AdminDoctorAdapter extends RecyclerView.Adapter<AdminDoctorAdapter.
         holder.doctorEmail.setText(doctorArrayList.get(position).getDoctorEmail());
         holder.doctorImage.setImageResource(doctorArrayList.get(position).getDoctorProfileImage());
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickListener.onItemClick(doctorArrayList.get(position).getDoctorName(), doctorArrayList.get(position).getDoctorID());
+            }
+        });
     }
 
     @Override
@@ -58,6 +66,18 @@ public class AdminDoctorAdapter extends RecyclerView.Adapter<AdminDoctorAdapter.
             doctorEmail = itemView.findViewById(R.id.adminDoctorEmail);
             doctorImage = itemView.findViewById(R.id.adminDoctorImage);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
         }
+    }
+
+    public interface ItemClickListener {
+        public void onItemClick(String doctorName, String doctorID);
+
     }
 }

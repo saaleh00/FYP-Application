@@ -16,10 +16,12 @@ public class AdminUserAdapter extends RecyclerView.Adapter<AdminUserAdapter.View
 
     private ArrayList<User> userArrayList;
     private LayoutInflater inflater;
+    private ItemClickListener clickListener;
 
-    public AdminUserAdapter(Context context, ArrayList<User> userArrayList){
+    public AdminUserAdapter(Context context, ArrayList<User> userArrayList, ItemClickListener clickListener){
         this.userArrayList = userArrayList;
         this.inflater = LayoutInflater.from(context);
+        this.clickListener = clickListener;
     }
 
     @NonNull
@@ -36,6 +38,12 @@ public class AdminUserAdapter extends RecyclerView.Adapter<AdminUserAdapter.View
         holder.userEmail.setText(userArrayList.get(position).getEmail());
         holder.userAge.setText(userArrayList.get(position).getAge());
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickListener.onItemClick(userArrayList.get(position).getName(), userArrayList.get(position).getUserID());
+            }
+        });
     }
 
     @Override
@@ -54,6 +62,19 @@ public class AdminUserAdapter extends RecyclerView.Adapter<AdminUserAdapter.View
             userEmail = itemView.findViewById(R.id.adminUserEmail);
             userAge = itemView.findViewById(R.id.adminUserAge);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
         }
+    }
+
+    public interface ItemClickListener {
+
+        public void onItemClick(String userName, String userID);
+
     }
 }

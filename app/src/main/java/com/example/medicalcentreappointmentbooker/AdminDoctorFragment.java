@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 
-public class AdminDoctorFragment extends Fragment {
+public class AdminDoctorFragment extends Fragment implements AdminDoctorAdapter.ItemClickListener{
 
     private RecyclerView adminDoctorRecyclerView;
 
@@ -30,6 +31,8 @@ public class AdminDoctorFragment extends Fragment {
     private AdminDoctorAdapter adapter;
 
     private final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+
+    private AdminSeeDoctorFragment adminSeeDoctorFragment;
 
     public AdminDoctorFragment() {
         // Required empty public constructor
@@ -60,7 +63,7 @@ public class AdminDoctorFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         adminDoctorRecyclerView.setLayoutManager(layoutManager);
 
-        adapter = new AdminDoctorAdapter(getActivity(), doctorArrayList);
+        adapter = new AdminDoctorAdapter(getActivity(), doctorArrayList, this);
         adminDoctorRecyclerView.setAdapter(adapter);
 
         loadData(new AdminDoctorCallback() {
@@ -80,11 +83,12 @@ public class AdminDoctorFragment extends Fragment {
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()){
                     if (dataSnapshot.child("role").getValue().equals("doctor")){
                         String doctorName = dataSnapshot.child("name").getValue().toString();
+                        String doctorID = dataSnapshot.getKey();
                         String doctorAge = dataSnapshot.child("age").getValue().toString();
                         String doctorEmail = dataSnapshot.child("email").getValue().toString();
                         Integer doctorProfileImage = R.drawable.ic_baseline_person_24;
 
-                        Doctor doctor = new Doctor(doctorName, doctorAge, doctorEmail, doctorProfileImage);
+                        Doctor doctor = new Doctor(doctorName, doctorID,doctorAge, doctorEmail, doctorProfileImage);
                         doctorArrayList.add(doctor);
                         adminDoctorCallback.onComplete(doctorArrayList);
                     }
@@ -96,5 +100,14 @@ public class AdminDoctorFragment extends Fragment {
                 Log.e("Executive Order", "The read failed: " + error.getDetails());
             }
         });
+    }
+
+    @Override
+    public void onItemClick(String doctorName, String doctorID) {
+        adminSeeDoctorFragment = AdminSeeDoctorFragment.newInstance(doctorName, doctorID);
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.adminContainer, adminSeeDoctorFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }

@@ -14,12 +14,17 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class AppointmentConfirmationFragment extends Fragment {
@@ -33,6 +38,7 @@ public class AppointmentConfirmationFragment extends Fragment {
 
 
     private String date, time, doctor, doctorID, patient, userID;
+    private int noOfAppointments, doctorAppointments;
 
 
     private TextView dateConfirmationTextView, timeConfirmationTextView, doctorConfirmationTextView;
@@ -41,6 +47,7 @@ public class AppointmentConfirmationFragment extends Fragment {
     private AppointmentDAO appointmentDAO;
 
     private DatabaseReference databaseReference;
+    private DatabaseReference statisticReference;
 
     private AppointmentBookedFragment appointmentBookedFragment;
 
@@ -95,6 +102,7 @@ public class AppointmentConfirmationFragment extends Fragment {
         userID = firebaseAuth.getCurrentUser().getUid();
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        statisticReference = FirebaseDatabase.getInstance().getReference("Statistics");
 
         databaseReference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -113,11 +121,46 @@ public class AppointmentConfirmationFragment extends Fragment {
             }
         });
 
+        statisticReference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.hasChild("noOfAppointments"))
+                    noOfAppointments = snapshot.child("noOfAppointments").getValue(Integer.class);
+                else
+                    noOfAppointments = 0;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        statisticReference.child(doctorID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.hasChild("noOfAppointments"))
+                    doctorAppointments = snapshot.child("noOfAppointments").getValue(Integer.class);
+                else
+                    doctorAppointments = 0;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
         confirmConfirmationButton.setOnClickListener(v -> {
             appointmentModel = new AppointmentModel(date, time, doctor, patient, doctorID, userID);
 
             appointmentDAO.create(appointmentModel).addOnSuccessListener(success ->
             {
+                Log.i("tag", Integer.toString(noOfAppointments));
+                statisticReference.child(userID).child("noOfAppointments").setValue(noOfAppointments+1);
+                statisticReference.child(doctorID).child("noOfAppointments").setValue(doctorAppointments+1);
                 openFragment(appointmentBookedFragment);
                 Toast.makeText(getActivity(), "Appointment Successfully Booked", Toast.LENGTH_SHORT).show();
             }).addOnFailureListener(error ->

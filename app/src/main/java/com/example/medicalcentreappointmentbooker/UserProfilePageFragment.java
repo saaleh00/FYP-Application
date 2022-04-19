@@ -1,5 +1,7 @@
 package com.example.medicalcentreappointmentbooker;
 
+import static android.content.ContentValues.TAG;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -68,8 +70,8 @@ public class UserProfilePageFragment extends Fragment {
             @Override
             public void onComplete(User user) {
                 userProfileName.setText(user.getName());
-                userProfileHeight.setText(Integer.toString(user.getHeight()));
-                userProfileWeight.setText(Integer.toString(user.getWeight()));
+                userProfileHeight.setText(user.getHeight() + " CM");
+                userProfileWeight.setText(user.getWeight() + " KG");
                 userProfileBlood.setText(user.getBloodType());
 
                 userProfileUpdateFragment = UserProfileUpdateFragment.newInstance(user.getName());

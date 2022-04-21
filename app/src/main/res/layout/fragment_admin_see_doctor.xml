@@ -10,7 +10,7 @@
         android:id="@+id/statDoctorBanner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:fontFamily="sans-serif-black"
         android:text="Doctor Statistics"
         android:textAlignment="center"
@@ -39,7 +39,7 @@
         app:layout_constraintTop_toBottomOf="@id/statDoctorName"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:src="@color/bright_blue"/>
+        android:src="@color/grey" />
 
     <TextView
         android:id="@+id/age"
@@ -137,5 +137,18 @@
         android:textSize="22sp"
         app:layout_constraintLeft_toRightOf="@id/noOfCancellations"
         app:layout_constraintTop_toBottomOf="@+id/statDoctorAppointments" />
+
+    <ProgressBar
+        android:id="@+id/seeDoctorProgressBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent = "true"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -69,7 +69,10 @@ public class AppointmentBookedAdapter extends RecyclerView.Adapter<AppointmentBo
         statisticReference.child(list.get(position).getDoctorID()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                doctorCancellations = snapshot.child("noOfCancellations").getValue(Integer.class);
+                if (snapshot.hasChild("noOfCancellations"))
+                    doctorCancellations = snapshot.child("noOfCancellations").getValue(Integer.class);
+                else
+                    doctorCancellations = 0;
             }
 
             @Override

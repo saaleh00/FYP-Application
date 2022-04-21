@@ -1,5 +1,6 @@
 package com.example.medicalcentreappointmentbooker;
 
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,9 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -20,6 +25,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 
 public class DoctorHomeFragment extends Fragment {
@@ -29,6 +36,11 @@ public class DoctorHomeFragment extends Fragment {
     private String userID;
 
     private Button viewBookingsButton;
+
+    private TextView doctorUserName;
+    private ImageView doctorImage;
+
+    private final StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("userProfileImages/");
 
     private DoctorAppointmentBookedFragment doctorAppointmentBookedFragment;
 
@@ -55,11 +67,14 @@ public class DoctorHomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_doctor_home, container, false);
 
+        doctorImage = view.findViewById(R.id.doctorHomeImage);
+        doctorUserName = view.findViewById(R.id.doctorUserName);
+
         user = FirebaseAuth.getInstance().getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference("Users");
         userID = user.getUid();
 
-        final TextView doctorUserName = view.findViewById(R.id.doctorUserName);
+
 
         databaseReference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -75,6 +90,18 @@ public class DoctorHomeFragment extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        storageReference.child(userID).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Glide.with(getActivity()).load(uri).centerCrop().placeholder(R.drawable.ic_baseline_person_24).into(doctorImage);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Glide.with(getActivity()).load(R.drawable.resource_default).into(doctorImage);
             }
         });
 

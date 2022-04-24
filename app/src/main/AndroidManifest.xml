@@ -14,19 +14,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MedicalCentreAppointmentBooker">
         <activity
-            android:name=".AdminActivity"
+            android:name=".Admin.AdminActivity"
             android:exported="false" />
         <activity
-            android:name=".DoctorActivity"
+            android:name=".Doctor.DoctorActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".Login.ForgotPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".ForgotPasswordActivity"
+            android:name=".Login.RegisterUserActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterUserActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginActivity"
+            android:name=".Login.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,8 +36,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
-            android:exported="true" />
+            android:name=".User.MainActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>

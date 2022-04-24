@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".HomeFragment">
+    tools:context=".User.HomeFragment">
 
     <TextView
         android:id="@+id/homeGreeting"
@@ -30,7 +30,7 @@
         app:layout_constraintLeft_toRightOf="@id/homeGreeting" />
 
     <Button
-        android:id="@+id/BookingActivityButton"
+        android:id="@+id/bookingActivityButton"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:text="Open Booking"
@@ -41,17 +41,26 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:id="@+id/seeChatButton"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Open Chat"
+        android:textSize="18sp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bookingActivityButton" />
+
+    <Button
         android:id="@+id/bookedAppointmentsButton"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:text="Booked Appointments"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        android:layout_marginTop="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/BookingActivityButton"
-        app:layout_constraintVertical_bias="0.05" />
+        app:layout_constraintTop_toBottomOf="@id/seeChatButton" />
 
     <Button
         android:id="@+id/homeUserProfileButton"
@@ -59,11 +68,9 @@
         android:layout_height="wrap_content"
         android:text="Profile Page"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        android:layout_marginTop="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bookedAppointmentsButton"
-        app:layout_constraintVertical_bias="0.05" />
+        app:layout_constraintTop_toBottomOf="@id/bookedAppointmentsButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

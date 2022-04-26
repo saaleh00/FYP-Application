@@ -2,6 +2,12 @@ package com.example.medicalcentreappointmentbooker.Doctor;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.AlertDialog;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -44,7 +50,7 @@ public class DoctorHomeFragment extends Fragment implements  View.OnClickListene
     private Button viewBookingsButton, chatButton;
 
     private TextView doctorUserName;
-    private ImageView doctorImage;
+    private ImageView doctorImage, logout;
 
     private final StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("userProfileImages/");
 
@@ -115,6 +121,9 @@ public class DoctorHomeFragment extends Fragment implements  View.OnClickListene
         chatButton = view.findViewById(R.id.doctorChatButton);
         chatButton.setOnClickListener(this);
 
+        logout = view.findViewById(R.id.doctorHomeLogout);
+        logout.setOnClickListener(this);
+
 
         return view;
     }
@@ -128,6 +137,39 @@ public class DoctorHomeFragment extends Fragment implements  View.OnClickListene
             case R.id.doctorChatButton:
                 Navigation.findNavController(v).navigate(R.id.doctorToSeeChat);
                 break;
+            case R.id.doctorHomeLogout:
+                logoutDialog();
+                break;
         }
+    }
+
+    public void logoutDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Logout");
+        builder.setMessage("Are you sure you want to logout?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                triggerRebirth(getActivity());
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    public static void triggerRebirth(Context context) {
+        PackageManager packageManager = context.getPackageManager();
+        Intent intent = packageManager.getLaunchIntentForPackage(context.getPackageName());
+        ComponentName componentName = intent.getComponent();
+        Intent mainIntent = Intent.makeRestartActivityTask(componentName);
+        context.startActivity(mainIntent);
+        Runtime.getRuntime().exit(0);
     }
 }

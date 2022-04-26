@@ -89,6 +89,7 @@ public class DoctorSelectFragment extends Fragment implements DoctorAdapter.Item
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                doctorArrayList.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     if (dataSnapshot.child("role").getValue().equals("doctor")) {
                         String doctorName = dataSnapshot.child("name").getValue().toString();

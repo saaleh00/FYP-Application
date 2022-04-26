@@ -1,5 +1,11 @@
 package com.example.medicalcentreappointmentbooker.User;
 
+import android.app.AlertDialog;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,13 +35,15 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Date;
 
 
-public class HomeFragment extends Fragment implements View.OnClickListener{
+public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private FirebaseUser user;
     private DatabaseReference databaseReference;
     private String userID;
 
     private Button bookingActivityButton, bookedAppointmentsButton, userProfileButton, seeChatButton;
+    private TextView userNameTextView;
+    private ImageView logout;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -64,14 +73,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         databaseReference = FirebaseDatabase.getInstance().getReference("Users");
         userID = user.getUid();
 
-        final TextView userNameTextView = view.findViewById(R.id.homeUserName);
+
+        userNameTextView = view.findViewById(R.id.homeUserName);
 
         databaseReference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User userProfile = snapshot.getValue(User.class);
 
-                if (userProfile != null){
+                if (userProfile != null) {
                     String userName = userProfile.name;
                     userNameTextView.setText(userName);
                 }
@@ -95,12 +105,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         seeChatButton = view.findViewById(R.id.seeChatButton);
         seeChatButton.setOnClickListener(this);
 
+        logout = view.findViewById(R.id.userHomeLogout);
+        logout.setOnClickListener(this);
+
         return view;
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.bookingActivityButton:
                 Navigation.findNavController(v).navigate(R.id.homeToDoctorSelect);
                 break;
@@ -113,7 +126,40 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             case R.id.seeChatButton:
                 Navigation.findNavController(v).navigate(R.id.homeToSeeChat);
                 break;
+            case R.id.userHomeLogout:
+                logoutDialog();
+                break;
         }
+    }
+
+    public void logoutDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Logout");
+        builder.setMessage("Are you sure you want to logout?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                triggerRebirth(getActivity());
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    public static void triggerRebirth(Context context) {
+        PackageManager packageManager = context.getPackageManager();
+        Intent intent = packageManager.getLaunchIntentForPackage(context.getPackageName());
+        ComponentName componentName = intent.getComponent();
+        Intent mainIntent = Intent.makeRestartActivityTask(componentName);
+        context.startActivity(mainIntent);
+        Runtime.getRuntime().exit(0);
     }
 
 }

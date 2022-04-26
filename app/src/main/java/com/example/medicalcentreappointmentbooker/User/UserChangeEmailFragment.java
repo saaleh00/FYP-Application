@@ -144,7 +144,6 @@ public class UserChangeEmailFragment extends Fragment {
                                 triggerRebirth(getActivity());
                             }
                         });
-
                     }
                 });
             }

@@ -2,9 +2,11 @@ package com.example.medicalcentreappointmentbooker.Admin;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,8 +37,6 @@ public class AdminDoctorFragment extends Fragment implements AdminDoctorAdapter.
 
     private final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
 
-    private AdminSeeDoctorFragment adminSeeDoctorFragment;
-
     public AdminDoctorFragment() {
         // Required empty public constructor
     }
@@ -51,6 +51,15 @@ public class AdminDoctorFragment extends Fragment implements AdminDoctorAdapter.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Navigation.findNavController(getView()).navigate(R.id.adminDoctorListToHome);
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
+
         if (getArguments() != null) {
         }
     }
@@ -107,10 +116,15 @@ public class AdminDoctorFragment extends Fragment implements AdminDoctorAdapter.
 
     @Override
     public void onItemClick(String doctorName, String doctorID) {
-        adminSeeDoctorFragment = AdminSeeDoctorFragment.newInstance(doctorName, doctorID);
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.adminContainer, adminSeeDoctorFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        Bundle bundle = new Bundle();
+        bundle.putString("doctorName", doctorName);
+        bundle.putString("doctorID", doctorID);
+        Navigation.findNavController(getView()).navigate(R.id.adminDoctorListToDoctor, bundle);
+
+//        adminSeeDoctorFragment = AdminSeeDoctorFragment.newInstance(doctorName, doctorID);
+//        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+//        fragmentTransaction.replace(R.id.adminContainer, adminSeeDoctorFragment);
+//        fragmentTransaction.addToBackStack(null);
+//        fragmentTransaction.commit();
     }
 }

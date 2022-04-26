@@ -1,12 +1,16 @@
 package com.example.medicalcentreappointmentbooker.Doctor;
 
+import static android.content.ContentValues.TAG;
+
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +35,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 
-public class DoctorHomeFragment extends Fragment {
+public class DoctorHomeFragment extends Fragment implements  View.OnClickListener{
 
     private FirebaseUser user;
     private DatabaseReference databaseReference;
@@ -43,9 +47,6 @@ public class DoctorHomeFragment extends Fragment {
     private ImageView doctorImage;
 
     private final StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("userProfileImages/");
-
-    private DoctorAppointmentBookedFragment doctorAppointmentBookedFragment;
-    private DoctorSeeChatFragment seeChatFragment;
 
     public DoctorHomeFragment() {
         // Required empty public constructor
@@ -108,30 +109,25 @@ public class DoctorHomeFragment extends Fragment {
             }
         });
 
-        doctorAppointmentBookedFragment = new DoctorAppointmentBookedFragment();
         viewBookingsButton = view.findViewById(R.id.doctorViewBookings);
-        viewBookingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openFragment(doctorAppointmentBookedFragment);
-            }
-        });
+        viewBookingsButton.setOnClickListener(this);
 
-        seeChatFragment = new DoctorSeeChatFragment();
         chatButton = view.findViewById(R.id.doctorChatButton);
-        chatButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openFragment(seeChatFragment);
-            }
-        });
+        chatButton.setOnClickListener(this);
+
 
         return view;
     }
 
-    public void openFragment(Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.doctorContainer, fragment);
-        fragmentTransaction.commit();
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.doctorViewBookings:
+                Navigation.findNavController(v).navigate(R.id.doctorToAppointments);
+                break;
+            case R.id.doctorChatButton:
+                Navigation.findNavController(v).navigate(R.id.doctorToSeeChat);
+                break;
+        }
     }
 }

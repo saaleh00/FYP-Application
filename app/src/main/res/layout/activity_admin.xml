@@ -6,28 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".Admin.AdminActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/adminFragmentContainerView"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/adminToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize" />
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <FrameLayout
-        android:id="@+id/adminContainer"
-        android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"></FrameLayout>
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/admin_navigation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

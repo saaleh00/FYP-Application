@@ -9,6 +9,8 @@ public class AppointmentModel {
     private String patient;
     private String doctorID;
     private String userID;
+
+
     @Exclude
     private String key;
 

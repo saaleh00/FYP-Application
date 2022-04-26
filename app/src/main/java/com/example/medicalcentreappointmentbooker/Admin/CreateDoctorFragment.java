@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -137,7 +139,10 @@ public class CreateDoctorFragment extends Fragment {
                                                 .setValue(userStats);
 
                                         Toast.makeText(getActivity(), "User successfully registered", Toast.LENGTH_LONG).show();
-                                        //Change fragment to doctor list fragment or simply refresh add doctor fragment
+
+                                        NavController navController = Navigation.findNavController(getView());
+                                        navController.popBackStack();
+                                        navController.navigate(R.id.createDoctorFragment);
                                     } else{
                                         Toast.makeText(getActivity(), "Failed to register user", Toast.LENGTH_LONG).show();
                                     }

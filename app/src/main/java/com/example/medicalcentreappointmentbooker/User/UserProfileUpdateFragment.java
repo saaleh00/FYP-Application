@@ -6,7 +6,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,18 +21,24 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.medicalcentreappointmentbooker.Callback.UserProfileCallback;
+import com.example.medicalcentreappointmentbooker.Model.User;
 import com.example.medicalcentreappointmentbooker.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class UserProfileUpdateFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class UserProfileUpdateFragment extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
 
     private static final String ARG_NAME = "userName";
@@ -94,57 +102,66 @@ public class UserProfileUpdateFragment extends Fragment implements AdapterView.O
 
         userProfilePageFragment = new UserProfilePageFragment();
 
-        updateButton.setOnClickListener(new View.OnClickListener() {
+        updateButton.setOnClickListener(this);
+
+        loadData(new UserProfileCallback() {
             @Override
-            public void onClick(View v) {
-                String userHeightString = userHeightInput.getText().toString().trim();
-                userHeight = Integer.parseInt(userHeightString);
-                String userWeightString = userWeightInput.getText().toString().trim();
-                userWeight = Integer.parseInt(userWeightString);
+            public void onComplete(User user) {
+                userHeightInput.setText(Integer.toString(user.getHeight()), TextView.BufferType.EDITABLE);
+                userWeightInput.setText(Integer.toString(user.getWeight()), TextView.BufferType.EDITABLE);
 
-                if (userHeightString.isEmpty()){
-                    userHeightInput.setError("No Height provided");
-                    userHeightInput.requestFocus();
-                    return;
+                if (!user.bloodType.equals("UNKNOWN")){
+                    int spinnerPosition = arrayAdapter.getPosition(user.bloodType);
+                    bloodTypeSpinner.setSelection(spinnerPosition);
                 }
-                if (userWeightString.isEmpty()){
-                    userWeightInput.setError("No Weight provided");
-                    userWeightInput.requestFocus();
-                    return;
-                }
-                if (userBloodType.isEmpty()){
-                    TextView errorText = (TextView)bloodTypeSpinner.getSelectedView();
-                    errorText.setError("");
-                    errorText.setTextColor(Color.RED);
-                    errorText.setText("No Blood type selected");
-                    return;
-                }
-                progressBar.setVisibility(View.VISIBLE);
-//                User user = new User(userName, userHeight, userWeight, userBloodType);
-
-                Map<String, Object> userDetails = new HashMap<>();
-                userDetails.put("height", userHeight);
-                userDetails.put("weight", userWeight);
-                userDetails.put("bloodType", userBloodType);
-                databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                        .updateChildren(userDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            progressBar.setVisibility(View.GONE);
-                            //What to do after updating page
-                            openFragment(userProfilePageFragment);
-
-                        } else {
-                            Toast.makeText(getActivity(), "Failed to update", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
             }
         });
 
         return view;
     }
+
+    private void loadData(UserProfileCallback userProfileCallback){
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                int userHeight;
+                int userWeight;
+                String userBlood;
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    if (dataSnapshot.getKey().equals(firebaseUser.getUid())){
+                        if (dataSnapshot.hasChild("height")){
+                            userHeight = dataSnapshot.child("height").getValue(Integer.class);
+                        } else{
+                            userHeight = 0;
+                        }
+                        if (dataSnapshot.hasChild("weight")){
+                            userWeight = dataSnapshot.child("weight").getValue(Integer.class);
+                        } else{
+                            userWeight = 0;
+                        }
+                        if (dataSnapshot.hasChild("bloodType")){
+                            userBlood = dataSnapshot.child("bloodType").getValue().toString();
+                        } else{
+                            userBlood = "UNKNOWN";
+                        }
+                        String userName = dataSnapshot.child("name").getValue().toString();
+
+                        User user = new User(userName, userHeight, userWeight, userBlood);
+                        userProfileCallback.onComplete(user);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("tag", error.getMessage());
+            }
+        });
+    }
+
+
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -156,9 +173,56 @@ public class UserProfileUpdateFragment extends Fragment implements AdapterView.O
 
     }
 
-    public void openFragment(Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.container, fragment);
-        fragmentTransaction.commit();
+    public void openFragment(int navigationAction) {
+        Navigation.findNavController(getView()).navigate(navigationAction);
+    }
+
+    @Override
+    public void onClick(View v) {
+        String userHeightString = userHeightInput.getText().toString().trim();
+        String userWeightString = userWeightInput.getText().toString().trim();
+
+        if (userHeightString.isEmpty()){
+            userHeightInput.setError("No Height provided");
+            userHeightInput.requestFocus();
+            return;
+        }
+        if (userWeightString.isEmpty()){
+            userWeightInput.setError("No Weight provided");
+            userWeightInput.requestFocus();
+            return;
+        }
+        if (userBloodType.isEmpty()){
+            TextView errorText = (TextView)bloodTypeSpinner.getSelectedView();
+            errorText.setError("");
+            errorText.setTextColor(Color.RED);
+            errorText.setText("No Blood type selected");
+            return;
+        }
+
+        userHeight = Integer.parseInt(userHeightString);
+        userWeight = Integer.parseInt(userWeightString);
+
+        progressBar.setVisibility(View.VISIBLE);
+//                User user = new User(userName, userHeight, userWeight, userBloodType);
+
+        Map<String, Object> userDetails = new HashMap<>();
+        userDetails.put("height", userHeight);
+        userDetails.put("weight", userWeight);
+        userDetails.put("bloodType", userBloodType);
+        databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .updateChildren(userDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    progressBar.setVisibility(View.GONE);
+                    //What to do after updating page
+                    openFragment(R.id.updateToProfile);
+
+                } else {
+                    Toast.makeText(getActivity(), "Failed to update", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 }

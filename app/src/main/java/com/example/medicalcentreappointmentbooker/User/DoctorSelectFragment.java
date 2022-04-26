@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,8 +39,6 @@ public class DoctorSelectFragment extends Fragment implements DoctorAdapter.Item
 
     private DoctorAdapter adapter;
 
-    private AppointmentSelectFragment appointmentSelectFragment;
-
     private final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
 
 
@@ -57,7 +56,7 @@ public class DoctorSelectFragment extends Fragment implements DoctorAdapter.Item
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((MainActivity) getActivity()).setActionBarTitle("Select Doctor and Date");
+//        ((MainActivity) getActivity()).setActionBarTitle("Select Doctor and Date");
         if (getArguments() != null) {
         }
     }
@@ -120,11 +119,12 @@ public class DoctorSelectFragment extends Fragment implements DoctorAdapter.Item
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
 
-                appointmentSelectFragment = AppointmentSelectFragment.newInstance(doctorName, doctorID,currentDateString);
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.container, appointmentSelectFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                Bundle bundle = new Bundle();
+                bundle.putString("doctorName", doctorName);
+                bundle.putString("doctorID", doctorID);
+                bundle.putString("selectedDate", currentDateString);
+
+                Navigation.findNavController(getView()).navigate(R.id.doctorToAppointmentSelect, bundle);
             }
         };
 
@@ -133,6 +133,16 @@ public class DoctorSelectFragment extends Fragment implements DoctorAdapter.Item
         int Month = calendar.get(Calendar.MONTH);
         int Day = calendar.get(Calendar.DAY_OF_MONTH);
         DatePickerDialog dateDialog= new DatePickerDialog(getActivity(), datePickerListener, Year, Month, Day);
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        dateDialog.getDatePicker().setMinDate(cal.getTimeInMillis());
+        cal.add(Calendar.WEEK_OF_MONTH, 2);
+        dateDialog.getDatePicker().setMaxDate(cal.getTimeInMillis());
+
         dateDialog.show();
     }
 }

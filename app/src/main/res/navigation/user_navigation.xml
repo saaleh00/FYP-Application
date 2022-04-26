@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/user_navigation"
+    app:startDestination="@id/homeFragment">
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.medicalcentreappointmentbooker.User.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/homeToDoctorSelect"
+            app:destination="@id/doctorSelectFragment" />
+        <action
+            android:id="@+id/homeToSeeChat"
+            app:destination="@id/userSeeChatFragment" />
+        <action
+            android:id="@+id/homeToAppointmentsBooked"
+            app:destination="@id/appointmentBookedFragment" />
+        <action
+            android:id="@+id/homeToProfile"
+            app:destination="@id/userProfilePageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/doctorSelectFragment"
+        android:name="com.example.medicalcentreappointmentbooker.User.DoctorSelectFragment"
+        android:label="fragment_doctor_select"
+        tools:layout="@layout/fragment_doctor_select" >
+        <action
+            android:id="@+id/doctorToAppointmentSelect"
+            app:destination="@id/appointmentSelectFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/appointmentSelectFragment"
+        android:name="com.example.medicalcentreappointmentbooker.User.AppointmentSelectFragment"
+        android:label="fragment_appointment_select"
+        tools:layout="@layout/fragment_appointment_select" >
+        <action
+            android:id="@+id/appointmentSelectToConfirm"
+            app:destination="@id/appointmentConfirmationFragment" />
+        <action
+            android:id="@+id/appointmentToDoctorSelect"
+            app:destination="@id/doctorSelectFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/appointmentConfirmationFragment"
+        android:name="com.example.medicalcentreappointmentbooker.User.AppointmentConfirmationFragment"
+        android:label="fragment_appointment_confirmation"
+        tools:layout="@layout/fragment_appointment_confirmation" >
+        <action
+            android:id="@+id/appointmentConfirmToDoctor"
+            app:destination="@id/doctorSelectFragment" />
+        <action
+            android:id="@+id/appointmentConfirmToBooked"
+            app:destination="@id/appointmentBookedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/appointmentBookedFragment"
+        android:name="com.example.medicalcentreappointmentbooker.User.AppointmentBookedFragment"
+        android:label="fragment_appointment_booked"
+        tools:layout="@layout/fragment_appointment_booked" >
+        <action
+            android:id="@+id/appointmentBookedToHome"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userSeeChatFragment"
+        android:name="com.example.medicalcentreappointmentbooker.User.UserSeeChatFragment"
+        android:label="fragment_user_see_chat"
+        tools:layout="@layout/fragment_user_see_chat" >
+        <action
+            android:id="@+id/seeChatToChat"
+            app:destination="@id/userChatFragment" />
+        <action
+            android:id="@+id/seeChatToHome"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userChatFragment"
+        android:name="com.example.medicalcentreappointmentbooker.User.UserChatFragment"
+        android:label="fragment_user_chat"
+        tools:layout="@layout/fragment_user_chat" >
+        <action
+            android:id="@+id/ChatToSeeChat"
+            app:destination="@id/userSeeChatFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userProfilePageFragment"
+        android:name="com.example.medicalcentreappointmentbooker.User.UserProfilePageFragment"
+        android:label="fragment_user_profile_page"
+        tools:layout="@layout/fragment_user_profile_page" >
+        <action
+            android:id="@+id/profileToUpdate"
+            app:destination="@id/userProfileUpdateFragment" />
+        <action
+            android:id="@+id/profileToChangeEmail"
+            app:destination="@id/userChangeEmailFragment" />
+        <action
+            android:id="@+id/profileToHome"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userProfileUpdateFragment"
+        android:name="com.example.medicalcentreappointmentbooker.User.UserProfileUpdateFragment"
+        android:label="fragment_user_profile_update"
+        tools:layout="@layout/fragment_user_profile_update" >
+        <action
+            android:id="@+id/updateToProfile"
+            app:destination="@id/userProfilePageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userChangeEmailFragment"
+        android:name="com.example.medicalcentreappointmentbooker.User.UserChangeEmailFragment"
+        android:label="fragment_user_change_email"
+        tools:layout="@layout/fragment_user_change_email" >
+        <action
+            android:id="@+id/changeEmailToProfile"
+            app:destination="@id/userProfilePageFragment" />
+    </fragment>
+</navigation>

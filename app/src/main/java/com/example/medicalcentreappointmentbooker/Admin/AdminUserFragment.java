@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,8 +35,6 @@ public class AdminUserFragment extends Fragment implements AdminUserAdapter.Item
     private AdminUserAdapter adapter;
 
     private final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
-
-    private AdminSeeUserFragment adminSeeUserFragment;
 
     public AdminUserFragment() {
         // Required empty public constructor
@@ -106,10 +105,15 @@ public class AdminUserFragment extends Fragment implements AdminUserAdapter.Item
 
     @Override
     public void onItemClick(String userName, String userID) {
-        adminSeeUserFragment = AdminSeeUserFragment.newInstance(userName, userID);
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.adminContainer, adminSeeUserFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        Bundle bundle = new Bundle();
+        bundle.putString("userName", userName);
+        bundle.putString("userID", userID);
+        Navigation.findNavController(getView()).navigate(R.id.adminUserListToUser, bundle);
+
+//        adminSeeUserFragment = AdminSeeUserFragment.newInstance(userName, userID);
+//        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+//        fragmentTransaction.replace(R.id.adminContainer, adminSeeUserFragment);
+//        fragmentTransaction.addToBackStack(null);
+//        fragmentTransaction.commit();
     }
 }

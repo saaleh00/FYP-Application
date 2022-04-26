@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.medicalcentreappointmentbooker.Callback.ChangeEmailCallback;
 import com.example.medicalcentreappointmentbooker.R;
@@ -179,14 +180,11 @@ public class UserChangeEmailFragment extends Fragment {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()){
-                                            Log.i("tag","email changed");
                                             changeEmailCallback.onComplete();
                                             return;
                                         }
                                     }
                                 });
-                            } else {
-                                Log.i("tag","email not changed");
                             }
                         }
                     });
@@ -221,12 +219,10 @@ public class UserChangeEmailFragment extends Fragment {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()){
-                                Log.i("tag","password changed");
                                 changeEmailCallback.onComplete();
                                 return;
                             } else {
-//                                Toast.makeText(getActivity(), "Unable to change details", Toast.LENGTH_LONG).show();
-                                Log.i("tag","password not changed");
+                                Toast.makeText(getActivity(), "Unable to change details", Toast.LENGTH_LONG).show();
                             }
                         }
                     });

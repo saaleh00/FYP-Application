@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,7 +23,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
+
+import java.security.Timestamp;
 
 
 public class AppointmentConfirmationFragment extends Fragment {
@@ -69,7 +73,7 @@ public class AppointmentConfirmationFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((MainActivity) getActivity()).setActionBarTitle("Please Confirm");
+//        ((MainActivity) getActivity()).setActionBarTitle("Please Confirm");
         if (getArguments() != null) {
             date = getArguments().getString(ARG_DATE);
             time = getArguments().getString(ARG_TIME);
@@ -156,10 +160,9 @@ public class AppointmentConfirmationFragment extends Fragment {
 
             appointmentDAO.create(appointmentModel).addOnSuccessListener(success ->
             {
-                Log.i("tag", Integer.toString(noOfAppointments));
                 statisticReference.child(userID).child("noOfAppointments").setValue(noOfAppointments+1);
                 statisticReference.child(doctorID).child("noOfAppointments").setValue(doctorAppointments+1);
-                openFragment(appointmentBookedFragment);
+                openFragment(R.id.appointmentConfirmToBooked);
                 Toast.makeText(getActivity(), "Appointment Successfully Booked", Toast.LENGTH_SHORT).show();
             }).addOnFailureListener(error ->
             {
@@ -171,9 +174,7 @@ public class AppointmentConfirmationFragment extends Fragment {
         return view;
     }
 
-    public void openFragment(Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.container, fragment);
-        fragmentTransaction.commit();
+    public void openFragment(int navigationAction) {
+        Navigation.findNavController(getView()).navigate(navigationAction);
     }
 }

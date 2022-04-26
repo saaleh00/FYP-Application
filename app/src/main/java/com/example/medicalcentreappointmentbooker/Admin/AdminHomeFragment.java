@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,17 +24,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
-public class AdminHomeFragment extends Fragment {
+public class AdminHomeFragment extends Fragment implements View.OnClickListener{
 
     private FirebaseUser user;
     private DatabaseReference databaseReference;
     private String userID;
 
     private Button addDoctorButton, userPageButton, doctorPageButton;
-
-    private CreateDoctorFragment createDoctorFragment;
-    private AdminUserFragment adminUserFragment;
-    private AdminDoctorFragment adminDoctorFragment;
 
     public AdminHomeFragment() {
         // Required empty public constructor
@@ -50,7 +46,6 @@ public class AdminHomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((AdminActivity) getActivity()).setActionBarTitle("Admin Page");
         if (getArguments() != null) {
         }
     }
@@ -83,40 +78,31 @@ public class AdminHomeFragment extends Fragment {
             }
         });
 
-        createDoctorFragment = new CreateDoctorFragment();
-        adminUserFragment = new AdminUserFragment();
-        adminDoctorFragment = new AdminDoctorFragment();
 
         addDoctorButton = view.findViewById(R.id.adminAddDoctor);
-        addDoctorButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openFragment(createDoctorFragment);
-            }
-        });
+        addDoctorButton.setOnClickListener(this);
 
         userPageButton = view.findViewById(R.id.adminUserButton);
-        userPageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openFragment(adminUserFragment);
-            }
-        });
+        userPageButton.setOnClickListener(this);
 
         doctorPageButton = view.findViewById(R.id.adminDoctorButton);
-        doctorPageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openFragment(adminDoctorFragment);
-            }
-        });
+        doctorPageButton.setOnClickListener(this);
 
         return view;
     }
 
-    public void openFragment(Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.adminContainer, fragment);
-        fragmentTransaction.commit();
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.adminAddDoctor:
+                Navigation.findNavController(v).navigate(R.id.adminHomeToAddDoctor);
+                break;
+            case R.id.adminUserButton:
+                Navigation.findNavController(v).navigate(R.id.adminHomeToUserList);
+                break;
+            case R.id.adminDoctorButton:
+                Navigation.findNavController(v).navigate(R.id.adminHomeToDoctorList);
+                break;
+        }
     }
 }

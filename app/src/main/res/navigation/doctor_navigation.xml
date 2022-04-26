@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/doctor_navigation"
+    app:startDestination="@id/doctorHomeFragment">
+
+    <fragment
+        android:id="@+id/doctorHomeFragment"
+        android:name="com.example.medicalcentreappointmentbooker.Doctor.DoctorHomeFragment"
+        android:label="fragment_doctor_home"
+        tools:layout="@layout/fragment_doctor_home" >
+        <action
+            android:id="@+id/doctorToAppointments"
+            app:destination="@id/doctorAppointmentBookedFragment" />
+        <action
+            android:id="@+id/doctorToSeeChat"
+            app:destination="@id/doctorSeeChatFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/doctorAppointmentBookedFragment"
+        android:name="com.example.medicalcentreappointmentbooker.Doctor.DoctorAppointmentBookedFragment"
+        android:label="fragment_doctor_appointment_booked"
+        tools:layout="@layout/fragment_doctor_appointment_booked" >
+        <action
+            android:id="@+id/doctorAppointmentsToHome"
+            app:destination="@id/doctorHomeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/doctorSeeChatFragment"
+        android:name="com.example.medicalcentreappointmentbooker.Doctor.DoctorSeeChatFragment"
+        android:label="fragment_doctor_see_chat"
+        tools:layout="@layout/fragment_doctor_see_chat" >
+        <action
+            android:id="@+id/doctorSeeChatToChat"
+            app:destination="@id/doctorChatFragment" />
+        <action
+            android:id="@+id/doctorSeeChatToHome"
+            app:destination="@id/doctorHomeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/doctorChatFragment"
+        android:name="com.example.medicalcentreappointmentbooker.Doctor.DoctorChatFragment"
+        android:label="fragment_doctor_chat"
+        tools:layout="@layout/fragment_doctor_chat" >
+        <action
+            android:id="@+id/doctorChatToSeeChat"
+            app:destination="@id/doctorSeeChatFragment" />
+    </fragment>
+</navigation>

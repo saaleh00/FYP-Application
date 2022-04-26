@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,11 +36,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
     private Button bookingActivityButton, bookedAppointmentsButton, userProfileButton, seeChatButton;
 
-    private DoctorSelectFragment doctorSelectFragment;
-    private AppointmentBookedFragment appointmentBookedFragment;
-    private UserProfilePageFragment userProfilePageFragment;
-    private UserSeeChatFragment seeChatFragment;
-
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -54,7 +50,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((MainActivity) getActivity()).setActionBarTitle("Appointment Booker");
+//        ((MainActivity) getActivity()).setActionBarTitle("Appointment Booker");
         if (getArguments() != null) {
         }
     }
@@ -67,10 +63,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         user = FirebaseAuth.getInstance().getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference("Users");
         userID = user.getUid();
-
-        Date signUpDate = new Date(user.getMetadata().getCreationTimestamp());
-
-        Log.i("tag", signUpDate.toString());
 
         final TextView userNameTextView = view.findViewById(R.id.homeUserName);
 
@@ -103,12 +95,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         seeChatButton = view.findViewById(R.id.seeChatButton);
         seeChatButton.setOnClickListener(this);
 
-
-        doctorSelectFragment = new DoctorSelectFragment();
-        appointmentBookedFragment = new AppointmentBookedFragment();
-        userProfilePageFragment = new UserProfilePageFragment();
-        seeChatFragment = new UserSeeChatFragment();
-
         return view;
     }
 
@@ -116,23 +102,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.bookingActivityButton:
-                openFragment(doctorSelectFragment);
+                Navigation.findNavController(v).navigate(R.id.homeToDoctorSelect);
                 break;
             case R.id.bookedAppointmentsButton:
-                openFragment(appointmentBookedFragment);
+                Navigation.findNavController(v).navigate(R.id.homeToAppointmentsBooked);
                 break;
             case R.id.homeUserProfileButton:
-                openFragment(userProfilePageFragment);
+                Navigation.findNavController(v).navigate(R.id.homeToProfile);
                 break;
             case R.id.seeChatButton:
-                openFragment(seeChatFragment);
+                Navigation.findNavController(v).navigate(R.id.homeToSeeChat);
                 break;
         }
     }
 
-    public void openFragment(Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.container, fragment);
-        fragmentTransaction.addToBackStack(null).commit();
-    }
 }

@@ -19,7 +19,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class DoctorAppointmentBookedFragment extends Fragment {
@@ -74,12 +77,26 @@ public class DoctorAppointmentBookedFragment extends Fragment {
         appointmentDAO.read().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                 appointmentModelArrayList.clear();
                 FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                 String doctorID = firebaseAuth.getCurrentUser().getUid();
+
                 for(DataSnapshot data : snapshot.getChildren()){
-                    AppointmentModel appointmentModel = data.getValue(AppointmentModel.class);
-                    if (appointmentModel.getDoctorID().equals(doctorID)) {
+                    String apptDate = data.child("date").getValue(String.class);
+
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MMMM dd, yyyy");
+                    formatter = formatter.withLocale(Locale.UK);
+                    LocalDate date = LocalDate.parse(apptDate, formatter);
+                    LocalDate currentDate = LocalDate.now();
+
+                    if (currentDate.isAfter(date)){
+                        appointmentDAO.delete(data.getKey());
+                        continue;
+                    }
+
+                    if (data.child("doctorID").getValue(String.class).equals(doctorID)) {
+                        AppointmentModel appointmentModel = data.getValue(AppointmentModel.class);
                         appointmentModelArrayList.add(appointmentModel);
                         appointmentModel.setKey(data.getKey());
                     }

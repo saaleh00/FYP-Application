@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -104,10 +105,16 @@ public class UserSeeChatFragment extends Fragment implements UserSeeChatAdapter.
 
     @Override
     public void onItemClick(String doctorName, String doctorID) {
-        chatFragment = UserChatFragment.newInstance(doctorName, doctorID);
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.container, chatFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        Bundle bundle = new Bundle();
+        bundle.putString("receiverName", doctorName);
+        bundle.putString("receiverID", doctorID);
+
+        Navigation.findNavController(getView()).navigate(R.id.seeChatToChat, bundle);
+
+//        chatFragment = UserChatFragment.newInstance(doctorName, doctorID);
+//        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+//        fragmentTransaction.replace(R.id.container, chatFragment);
+//        fragmentTransaction.addToBackStack(null);
+//        fragmentTransaction.commit();
     }
 }

@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +26,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class AppointmentSelectFragment extends Fragment implements TimeSlotAdapter.ItemClickListener {
+
+    private View view;
 
 
     private static final String ARG_DOCTOR_NAME = "doctorName";
@@ -64,7 +67,7 @@ public class AppointmentSelectFragment extends Fragment implements TimeSlotAdapt
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((MainActivity) getActivity()).setActionBarTitle("Select Time");
+//        ((MainActivity) getActivity()).setActionBarTitle("Select Time");
         if (getArguments() != null) {
             doctorName = getArguments().getString(ARG_DOCTOR_NAME);
             doctorID = getArguments().getString(ARG_DOCTOR_ID);
@@ -75,7 +78,7 @@ public class AppointmentSelectFragment extends Fragment implements TimeSlotAdapt
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_appointment_select, container, false);
+        view = inflater.inflate(R.layout.fragment_appointment_select, container, false);
 
         timeSlotList = new ArrayList<>();
 
@@ -115,6 +118,7 @@ public class AppointmentSelectFragment extends Fragment implements TimeSlotAdapt
                         }
                     }
                 }
+                timeList.clear();
                 //Morning
                 timeList.add("09:00 AM");
                 timeList.add("09:30 AM");
@@ -162,11 +166,22 @@ public class AppointmentSelectFragment extends Fragment implements TimeSlotAdapt
 
     @Override
     public void onItemClick(String timeItem) {
-        appointmentConfirmationFragment = AppointmentConfirmationFragment.newInstance(selectedDate, timeItem, doctorName, doctorID);
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.container, appointmentConfirmationFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("date", selectedDate);
+        bundle.putString("time", timeItem);
+        bundle.putString("doctor", doctorName);
+        bundle.putString("doctorID", doctorID);
+
+
+        Navigation.findNavController(view).navigate(R.id.appointmentSelectToConfirm, bundle);
+
+
+//        appointmentConfirmationFragment = AppointmentConfirmationFragment.newInstance(selectedDate, timeItem, doctorName, doctorID);
+//        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+//        fragmentTransaction.replace(R.id.container, appointmentConfirmationFragment);
+//        fragmentTransaction.addToBackStack(null);
+//        fragmentTransaction.commit();
     }
 
 }

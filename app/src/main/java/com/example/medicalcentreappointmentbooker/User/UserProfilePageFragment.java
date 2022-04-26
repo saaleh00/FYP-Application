@@ -2,9 +2,11 @@ package com.example.medicalcentreappointmentbooker.User;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -49,6 +51,15 @@ public class UserProfilePageFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Navigation.findNavController(getView()).navigate(R.id.profileToHome);
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
+
         if (getArguments() != null) {
         }
     }
@@ -78,14 +89,14 @@ public class UserProfilePageFragment extends Fragment {
                 userProfileChangeButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        openFragment(userProfileUpdateFragment);
+                        openFragment(R.id.profileToUpdate);
                     }
                 });
                 userChangeEmailFragment = new UserChangeEmailFragment();
                 userProfileEmailButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        openFragment(userChangeEmailFragment);
+                        openFragment(R.id.profileToChangeEmail);
                     }
                 });
             }
@@ -135,9 +146,10 @@ public class UserProfilePageFragment extends Fragment {
         });
     }
 
-    public void openFragment(Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.container, fragment);
-        fragmentTransaction.commit();
+    public void openFragment(int navigationAction) {
+        Navigation.findNavController(getView()).navigate(navigationAction);
+//        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+//        fragmentTransaction.replace(R.id.container, fragment);
+//        fragmentTransaction.commit();
     }
 }

@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.Navigation;
@@ -47,7 +48,7 @@ public class DoctorHomeFragment extends Fragment implements  View.OnClickListene
     private DatabaseReference databaseReference;
     private String userID;
 
-    private Button viewBookingsButton, chatButton;
+    private CardView openBookingButton, openChatButton;
 
     private TextView doctorUserName;
     private ImageView doctorImage, logout;
@@ -93,7 +94,7 @@ public class DoctorHomeFragment extends Fragment implements  View.OnClickListene
 
                 if (userProfile != null){
                     String userName = userProfile.name;
-                    doctorUserName.setText(userName);
+                    doctorUserName.setText("Doctor " + userName);
                 }
             }
 
@@ -115,11 +116,11 @@ public class DoctorHomeFragment extends Fragment implements  View.OnClickListene
             }
         });
 
-        viewBookingsButton = view.findViewById(R.id.doctorViewBookings);
-        viewBookingsButton.setOnClickListener(this);
+        openBookingButton = view.findViewById(R.id.doctorOpenAppointmentsButton);
+        openBookingButton.setOnClickListener(this);
 
-        chatButton = view.findViewById(R.id.doctorChatButton);
-        chatButton.setOnClickListener(this);
+        openChatButton = view.findViewById(R.id.doctorOpenChatButton);
+        openChatButton.setOnClickListener(this);
 
         logout = view.findViewById(R.id.doctorHomeLogout);
         logout.setOnClickListener(this);
@@ -131,10 +132,10 @@ public class DoctorHomeFragment extends Fragment implements  View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.doctorViewBookings:
+            case R.id.doctorOpenAppointmentsButton:
                 Navigation.findNavController(v).navigate(R.id.doctorToAppointments);
                 break;
-            case R.id.doctorChatButton:
+            case R.id.doctorOpenChatButton:
                 Navigation.findNavController(v).navigate(R.id.doctorToSeeChat);
                 break;
             case R.id.doctorHomeLogout:

@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -37,7 +38,7 @@ public class AdminHomeFragment extends Fragment implements View.OnClickListener{
     private DatabaseReference databaseReference;
     private String userID;
 
-    private Button addDoctorButton, userPageButton, doctorPageButton;
+    private CardView openAddDoctorButton, openViewDoctorButton, openViewUserButton;
     private ImageView logout;
 
     public AdminHomeFragment() {
@@ -76,7 +77,7 @@ public class AdminHomeFragment extends Fragment implements View.OnClickListener{
 
                 if (userProfile != null){
                     String userName = userProfile.name;
-                    adminUserName.setText(userName);
+                    adminUserName.setText("Admin " + userName);
                 }
             }
 
@@ -87,14 +88,14 @@ public class AdminHomeFragment extends Fragment implements View.OnClickListener{
         });
 
 
-        addDoctorButton = view.findViewById(R.id.adminAddDoctor);
-        addDoctorButton.setOnClickListener(this);
+        openAddDoctorButton = view.findViewById(R.id.adminOpenAddDoctorButton);
+        openAddDoctorButton.setOnClickListener(this);
 
-        userPageButton = view.findViewById(R.id.adminUserButton);
-        userPageButton.setOnClickListener(this);
+        openViewDoctorButton = view.findViewById(R.id.adminOpenViewDoctorButton);
+        openViewDoctorButton.setOnClickListener(this);
 
-        doctorPageButton = view.findViewById(R.id.adminDoctorButton);
-        doctorPageButton.setOnClickListener(this);
+        openViewUserButton = view.findViewById(R.id.adminOpenViewUserButton);
+        openViewUserButton.setOnClickListener(this);
 
         logout = view.findViewById(R.id.adminHomeLogout);
         logout.setOnClickListener(this);
@@ -105,14 +106,14 @@ public class AdminHomeFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.adminAddDoctor:
+            case R.id.adminOpenAddDoctorButton:
                 Navigation.findNavController(v).navigate(R.id.adminHomeToAddDoctor);
                 break;
-            case R.id.adminUserButton:
-                Navigation.findNavController(v).navigate(R.id.adminHomeToUserList);
-                break;
-            case R.id.adminDoctorButton:
+            case R.id.adminOpenViewDoctorButton:
                 Navigation.findNavController(v).navigate(R.id.adminHomeToDoctorList);
+                break;
+            case R.id.adminOpenViewUserButton:
+                Navigation.findNavController(v).navigate(R.id.adminHomeToUserList);
                 break;
             case R.id.adminHomeLogout:
                 logoutDialog();

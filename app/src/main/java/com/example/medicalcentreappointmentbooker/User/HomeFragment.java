@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.Navigation;
@@ -41,12 +42,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private DatabaseReference databaseReference;
     private String userID;
 
-    private Button bookingActivityButton, bookedAppointmentsButton, userProfileButton, seeChatButton;
+    private CardView openBookingButton, openChatButton, openAppointmentsButton, openProfileButton;
     private TextView userNameTextView;
     private ImageView logout;
 
     public HomeFragment() {
-        // Required empty public constructor
     }
 
     public static HomeFragment newInstance() {
@@ -59,7 +59,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        ((MainActivity) getActivity()).setActionBarTitle("Appointment Booker");
         if (getArguments() != null) {
         }
     }
@@ -72,7 +71,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         user = FirebaseAuth.getInstance().getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference("Users");
         userID = user.getUid();
-
 
         userNameTextView = view.findViewById(R.id.homeUserName);
 
@@ -93,17 +91,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        bookingActivityButton = view.findViewById(R.id.bookingActivityButton);
-        bookingActivityButton.setOnClickListener(this);
+        openBookingButton = view.findViewById(R.id.userOpenBookingButton);
+        openBookingButton.setOnClickListener(this);
 
-        bookedAppointmentsButton = view.findViewById(R.id.bookedAppointmentsButton);
-        bookedAppointmentsButton.setOnClickListener(this);
+        openChatButton = view.findViewById(R.id.userOpenChatButton);
+        openChatButton.setOnClickListener(this);
 
-        userProfileButton = view.findViewById(R.id.homeUserProfileButton);
-        userProfileButton.setOnClickListener(this);
+        openAppointmentsButton = view.findViewById(R.id.userOpenAppointmentsButton);
+        openAppointmentsButton.setOnClickListener(this);
 
-        seeChatButton = view.findViewById(R.id.seeChatButton);
-        seeChatButton.setOnClickListener(this);
+        openProfileButton = view.findViewById(R.id.userOpenProfileButton);
+        openProfileButton.setOnClickListener(this);
 
         logout = view.findViewById(R.id.userHomeLogout);
         logout.setOnClickListener(this);
@@ -114,17 +112,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.bookingActivityButton:
+            case R.id.userOpenBookingButton:
                 Navigation.findNavController(v).navigate(R.id.homeToDoctorSelect);
                 break;
-            case R.id.bookedAppointmentsButton:
+            case R.id.userOpenChatButton:
+                Navigation.findNavController(v).navigate(R.id.homeToSeeChat);
+                break;
+            case R.id.userOpenAppointmentsButton:
                 Navigation.findNavController(v).navigate(R.id.homeToAppointmentsBooked);
                 break;
-            case R.id.homeUserProfileButton:
+            case R.id.userOpenProfileButton:
                 Navigation.findNavController(v).navigate(R.id.homeToProfile);
-                break;
-            case R.id.seeChatButton:
-                Navigation.findNavController(v).navigate(R.id.homeToSeeChat);
                 break;
             case R.id.userHomeLogout:
                 logoutDialog();

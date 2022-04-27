@@ -115,10 +115,6 @@ public class DoctorSeeChatFragment extends Fragment implements DoctorSeeChatAdap
         Navigation.findNavController(getView()).navigate(R.id.doctorSeeChatToChat, bundle);
 
 
-//        chatFragment = DoctorChatFragment.newInstance(userName, userID);
-//        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-//        fragmentTransaction.replace(R.id.doctorContainer, chatFragment);
-//        fragmentTransaction.addToBackStack(null);
-//        fragmentTransaction.commit();
+
     }
 }

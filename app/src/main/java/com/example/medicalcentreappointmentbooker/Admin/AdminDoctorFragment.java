@@ -120,11 +120,5 @@ public class AdminDoctorFragment extends Fragment implements AdminDoctorAdapter.
         bundle.putString("doctorName", doctorName);
         bundle.putString("doctorID", doctorID);
         Navigation.findNavController(getView()).navigate(R.id.adminDoctorListToDoctor, bundle);
-
-//        adminSeeDoctorFragment = AdminSeeDoctorFragment.newInstance(doctorName, doctorID);
-//        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-//        fragmentTransaction.replace(R.id.adminContainer, adminSeeDoctorFragment);
-//        fragmentTransaction.addToBackStack(null);
-//        fragmentTransaction.commit();
     }
 }

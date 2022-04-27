@@ -110,11 +110,5 @@ public class UserSeeChatFragment extends Fragment implements UserSeeChatAdapter.
         bundle.putString("receiverID", doctorID);
 
         Navigation.findNavController(getView()).navigate(R.id.seeChatToChat, bundle);
-
-//        chatFragment = UserChatFragment.newInstance(doctorName, doctorID);
-//        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-//        fragmentTransaction.replace(R.id.container, chatFragment);
-//        fragmentTransaction.addToBackStack(null);
-//        fragmentTransaction.commit();
     }
 }

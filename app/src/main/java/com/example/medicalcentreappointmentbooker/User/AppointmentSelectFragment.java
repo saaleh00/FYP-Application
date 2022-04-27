@@ -23,7 +23,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class AppointmentSelectFragment extends Fragment implements TimeSlotAdapter.ItemClickListener {
 
@@ -54,7 +62,7 @@ public class AppointmentSelectFragment extends Fragment implements TimeSlotAdapt
         // Required empty public constructor
     }
 
-    public static AppointmentSelectFragment newInstance(String doctorName, String doctorID,String selectedDate) {
+    public static AppointmentSelectFragment newInstance(String doctorName, String doctorID, String selectedDate) {
         AppointmentSelectFragment fragment = new AppointmentSelectFragment();
         Bundle args = new Bundle();
         args.putString(ARG_DOCTOR_NAME, doctorName);
@@ -143,10 +151,26 @@ public class AppointmentSelectFragment extends Fragment implements TimeSlotAdapt
                 timeList.add("17:30 PM");
                 timeList.add("18:00 PM");
 
-                for (String time :
-                        timeList) {
+                DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm a");
+                timeFormatter = timeFormatter.withLocale(Locale.US);
+
+                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("EEEE, MMMM dd, yyyy");
+                dateFormatter = dateFormatter.withLocale(Locale.UK);
+                LocalDate date = LocalDate.parse(selectedDate, dateFormatter);
+                LocalDate currentDate = LocalDate.now();
+
+                Log.i("current date", currentDate.toString());
+                Log.i("selected date", date.toString());
+
+
+
+
+                for (String time : timeList) {
                     TimeSlot timeSlot;
-                    if (unavailableTimeSlots.contains(time)) {
+                    LocalTime timeSelected = LocalTime.parse(time, timeFormatter);
+
+                    if (unavailableTimeSlots.contains(time) ||
+                            ( timeSelected.isBefore(LocalTime.now()) && date.isEqual(currentDate))) {
                         timeSlot = new TimeSlot(time, false);
                     } else {
                         timeSlot = new TimeSlot(time, true);
@@ -172,15 +196,8 @@ public class AppointmentSelectFragment extends Fragment implements TimeSlotAdapt
         bundle.putString("doctor", doctorName);
         bundle.putString("doctorID", doctorID);
 
-
         Navigation.findNavController(view).navigate(R.id.appointmentSelectToConfirm, bundle);
 
-
-//        appointmentConfirmationFragment = AppointmentConfirmationFragment.newInstance(selectedDate, timeItem, doctorName, doctorID);
-//        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-//        fragmentTransaction.replace(R.id.container, appointmentConfirmationFragment);
-//        fragmentTransaction.addToBackStack(null);
-//        fragmentTransaction.commit();
     }
 
 }

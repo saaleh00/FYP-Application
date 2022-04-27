@@ -110,10 +110,6 @@ public class AdminUserFragment extends Fragment implements AdminUserAdapter.Item
         bundle.putString("userID", userID);
         Navigation.findNavController(getView()).navigate(R.id.adminUserListToUser, bundle);
 
-//        adminSeeUserFragment = AdminSeeUserFragment.newInstance(userName, userID);
-//        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-//        fragmentTransaction.replace(R.id.adminContainer, adminSeeUserFragment);
-//        fragmentTransaction.addToBackStack(null);
-//        fragmentTransaction.commit();
+
     }
 }

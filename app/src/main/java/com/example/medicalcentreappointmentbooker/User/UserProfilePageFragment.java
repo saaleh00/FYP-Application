@@ -148,8 +148,5 @@ public class UserProfilePageFragment extends Fragment {
 
     public void openFragment(int navigationAction) {
         Navigation.findNavController(getView()).navigate(navigationAction);
-//        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-//        fragmentTransaction.replace(R.id.container, fragment);
-//        fragmentTransaction.commit();
     }
 }

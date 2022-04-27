@@ -112,7 +112,7 @@ public class AppointmentConfirmationFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User userProfile = snapshot.getValue(User.class);
 
-                if (userProfile != null){
+                if (userProfile != null) {
                     String userName = userProfile.name;
                     patient = userName;
                 }
@@ -155,20 +155,8 @@ public class AppointmentConfirmationFragment extends Fragment {
         });
 
 
-
         confirmConfirmationButton.setOnClickListener(v -> {
-            appointmentModel = new AppointmentModel(date, time, doctor, patient, doctorID, userID);
-
-            appointmentDAO.create(appointmentModel).addOnSuccessListener(success ->
-            {
-                statisticReference.child(userID).child("noOfAppointments").setValue(noOfAppointments+1);
-                statisticReference.child(doctorID).child("noOfAppointments").setValue(doctorAppointments+1);
-                confirmDialog();
-            }).addOnFailureListener(error ->
-            {
-                Toast.makeText(getActivity(), "" + error.getMessage(), Toast.LENGTH_SHORT).show();
-
-            });
+            confirmDialog();
         });
 
         return view;
@@ -181,7 +169,18 @@ public class AppointmentConfirmationFragment extends Fragment {
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                openFragment(R.id.appointmentConfirmToBooked);
+                appointmentModel = new AppointmentModel(date, time, doctor, patient, doctorID, userID);
+
+                appointmentDAO.create(appointmentModel).addOnSuccessListener(success ->
+                {
+                    statisticReference.child(userID).child("noOfAppointments").setValue(noOfAppointments + 1);
+                    statisticReference.child(doctorID).child("noOfAppointments").setValue(doctorAppointments + 1);
+                }).addOnFailureListener(error ->
+                {
+                    Toast.makeText(getActivity(), "" + error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                });
+                Navigation.findNavController(getView()).navigate(R.id.appointmentConfirmToBooked);
             }
         });
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -195,7 +194,4 @@ public class AppointmentConfirmationFragment extends Fragment {
         alert.show();
     }
 
-    public void openFragment(int navigationAction) {
-        Navigation.findNavController(getView()).navigate(navigationAction);
-    }
 }

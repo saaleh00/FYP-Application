@@ -41,7 +41,7 @@ public class AppointmentSelectFragment extends Fragment implements TimeSlotAdapt
     private AppointmentConfirmationFragment appointmentConfirmationFragment;
 
 
-    private String doctorName, doctorID,selectedDate;
+    private String doctorName, doctorID, selectedDate;
 
     private GridView appointmentSelectGridView;
     private ArrayList<String> unavailableTimeSlots = new ArrayList<>();
@@ -67,7 +67,6 @@ public class AppointmentSelectFragment extends Fragment implements TimeSlotAdapt
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        ((MainActivity) getActivity()).setActionBarTitle("Select Time");
         if (getArguments() != null) {
             doctorName = getArguments().getString(ARG_DOCTOR_NAME);
             doctorID = getArguments().getString(ARG_DOCTOR_ID);
@@ -83,10 +82,10 @@ public class AppointmentSelectFragment extends Fragment implements TimeSlotAdapt
         timeSlotList = new ArrayList<>();
 
         dateText = view.findViewById(R.id.dateText);
-        dateText.setText(selectedDate);
+        dateText.setText("Date: " + selectedDate);
 
         appointmentSelectDoctorName = view.findViewById(R.id.appointmentSelectDoctorName);
-        appointmentSelectDoctorName.setText(doctorName);
+        appointmentSelectDoctorName.setText("Doctor " + doctorName);
 
         timeTextView = view.findViewById(R.id.timeTextView);
 

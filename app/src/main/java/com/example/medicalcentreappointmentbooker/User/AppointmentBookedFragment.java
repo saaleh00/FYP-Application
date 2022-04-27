@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.medicalcentreappointmentbooker.Model.AppointmentModel;
 import com.example.medicalcentreappointmentbooker.R;
@@ -41,6 +42,8 @@ public class AppointmentBookedFragment extends Fragment{
 
     private ArrayList<AppointmentModel> appointmentModelArrayList;
 
+    private TextView noAppointments;
+
     private AppointmentDAO appointmentDAO;
 
     public AppointmentBookedFragment() {
@@ -66,8 +69,6 @@ public class AppointmentBookedFragment extends Fragment{
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
 
-
-//        ((MainActivity) getActivity()).setActionBarTitle("Booked Appointments");
         if (getArguments() != null) {
         }
     }
@@ -78,6 +79,8 @@ public class AppointmentBookedFragment extends Fragment{
         View view = inflater.inflate(R.layout.fragment_appointment_booked, container, false);
 
         appointmentModelArrayList = new ArrayList<>();
+
+        noAppointments = view.findViewById(R.id.userNoAppointmentsTV);
 
         bookedAppointmentsRecyclerView = view.findViewById(R.id.bookedAppointmentsRecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -121,7 +124,10 @@ public class AppointmentBookedFragment extends Fragment{
                         appointmentModel.setKey(data.getKey());
                     }
                 }
-                appointmentBookedAdapter.notifyDataSetChanged();
+                if (appointmentModelArrayList.isEmpty())
+                    noAppointments.setVisibility(View.VISIBLE);
+                else
+                    appointmentBookedAdapter.notifyDataSetChanged();
             }
 
             @Override

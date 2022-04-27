@@ -56,7 +56,6 @@ public class DoctorSelectFragment extends Fragment implements DoctorAdapter.Item
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        ((MainActivity) getActivity()).setActionBarTitle("Select Doctor and Date");
         if (getArguments() != null) {
         }
     }

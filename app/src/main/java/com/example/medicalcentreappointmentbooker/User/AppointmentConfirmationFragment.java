@@ -1,5 +1,7 @@
 package com.example.medicalcentreappointmentbooker.User;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -73,7 +75,6 @@ public class AppointmentConfirmationFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        ((MainActivity) getActivity()).setActionBarTitle("Please Confirm");
         if (getArguments() != null) {
             date = getArguments().getString(ARG_DATE);
             time = getArguments().getString(ARG_TIME);
@@ -94,7 +95,7 @@ public class AppointmentConfirmationFragment extends Fragment {
 
         dateConfirmationTextView.setText(date);
         timeConfirmationTextView.setText(time);
-        doctorConfirmationTextView.setText(doctor);
+        doctorConfirmationTextView.setText("Doctor " + doctor);
 
         appointmentDAO = new AppointmentDAO();
 
@@ -162,8 +163,7 @@ public class AppointmentConfirmationFragment extends Fragment {
             {
                 statisticReference.child(userID).child("noOfAppointments").setValue(noOfAppointments+1);
                 statisticReference.child(doctorID).child("noOfAppointments").setValue(doctorAppointments+1);
-                openFragment(R.id.appointmentConfirmToBooked);
-                Toast.makeText(getActivity(), "Appointment Successfully Booked", Toast.LENGTH_SHORT).show();
+                confirmDialog();
             }).addOnFailureListener(error ->
             {
                 Toast.makeText(getActivity(), "" + error.getMessage(), Toast.LENGTH_SHORT).show();
@@ -172,6 +172,27 @@ public class AppointmentConfirmationFragment extends Fragment {
         });
 
         return view;
+    }
+
+    public void confirmDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Confirm");
+        builder.setMessage("Are you confirming this appointment?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                openFragment(R.id.appointmentConfirmToBooked);
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     public void openFragment(int navigationAction) {

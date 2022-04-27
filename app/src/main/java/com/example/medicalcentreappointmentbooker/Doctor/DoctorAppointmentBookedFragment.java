@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.medicalcentreappointmentbooker.R;
 import com.example.medicalcentreappointmentbooker.User.AppointmentDAO;
@@ -31,6 +32,8 @@ public class DoctorAppointmentBookedFragment extends Fragment {
     private DoctorAppointmentBookedAdapter doctorAppointmentBookedAdapter;
 
     private ArrayList<AppointmentModel> appointmentModelArrayList;
+
+    private TextView noAppointments;
 
     private AppointmentDAO appointmentDAO;
 
@@ -58,6 +61,8 @@ public class DoctorAppointmentBookedFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_doctor_appointment_booked, container, false);
 
         appointmentModelArrayList = new ArrayList<>();
+
+        noAppointments = view.findViewById(R.id.doctorNoAppointmentsTV);
 
         bookedAppointmentRecyclerView = view.findViewById(R.id.doctorBookedAppointmentsRecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -101,7 +106,10 @@ public class DoctorAppointmentBookedFragment extends Fragment {
                         appointmentModel.setKey(data.getKey());
                     }
                 }
-                doctorAppointmentBookedAdapter.notifyDataSetChanged();
+                if (appointmentModelArrayList.isEmpty())
+                    noAppointments.setVisibility(View.VISIBLE);
+                else
+                    doctorAppointmentBookedAdapter.notifyDataSetChanged();
             }
 
             @Override

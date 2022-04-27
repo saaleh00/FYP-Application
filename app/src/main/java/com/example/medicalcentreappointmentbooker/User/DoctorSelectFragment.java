@@ -27,8 +27,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 
 public class DoctorSelectFragment extends Fragment implements DoctorAdapter.ItemClickListener {
@@ -117,7 +119,9 @@ public class DoctorSelectFragment extends Fragment implements DoctorAdapter.Item
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, monthOfYear);
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
+                SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM dd, yyyy", Locale.UK);
+                String currentDateString = dateFormat.format(calendar.getTime());
+
 
                 Bundle bundle = new Bundle();
                 bundle.putString("doctorName", doctorName);

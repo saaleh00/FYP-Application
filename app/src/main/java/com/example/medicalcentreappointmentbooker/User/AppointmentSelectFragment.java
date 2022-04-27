@@ -159,12 +159,6 @@ public class AppointmentSelectFragment extends Fragment implements TimeSlotAdapt
                 LocalDate date = LocalDate.parse(selectedDate, dateFormatter);
                 LocalDate currentDate = LocalDate.now();
 
-                Log.i("current date", currentDate.toString());
-                Log.i("selected date", date.toString());
-
-
-
-
                 for (String time : timeList) {
                     TimeSlot timeSlot;
                     LocalTime timeSelected = LocalTime.parse(time, timeFormatter);

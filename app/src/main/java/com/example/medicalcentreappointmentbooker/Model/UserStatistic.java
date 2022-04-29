@@ -3,11 +3,12 @@ package com.example.medicalcentreappointmentbooker.Model;
 public class UserStatistic {
 
     public String name, age, bloodType, userID;
-    public int height, weight, noOfAppointments, noOfCancellations;
+    public int noOfAppointments, noOfCancellations;
     public long timeStamp;
+    private double height, weight;
 
     //For user
-    public UserStatistic(String name, String age, String bloodType, String userID, int height, int weight, int noOfAppointments, int noOfCancellations, long timeStamp) {
+    public UserStatistic(String name, String age, String bloodType, String userID, double height, double weight, int noOfAppointments, int noOfCancellations, long timeStamp) {
         this.name = name;
         this.age = age;
         this.bloodType = bloodType;
@@ -52,11 +53,11 @@ public class UserStatistic {
         return userID;
     }
 
-    public int getHeight() {
+    public double getHeight() {
         return height;
     }
 
-    public int getWeight() {
+    public double getWeight() {
         return weight;
     }
 

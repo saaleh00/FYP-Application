@@ -2,19 +2,17 @@ package com.example.medicalcentreappointmentbooker.User;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.medicalcentreappointmentbooker.Callback.DoctorCallback;
 import com.example.medicalcentreappointmentbooker.Doctor.DoctorAdapter;
@@ -26,7 +24,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;

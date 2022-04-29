@@ -1,17 +1,15 @@
 package com.example.medicalcentreappointmentbooker.User;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.Navigation;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.example.medicalcentreappointmentbooker.Callback.TimeSlotCallback;
 import com.example.medicalcentreappointmentbooker.Model.AppointmentModel;
@@ -23,14 +21,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 public class AppointmentSelectFragment extends Fragment implements TimeSlotAdapter.ItemClickListener {

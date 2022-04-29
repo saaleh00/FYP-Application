@@ -1,24 +1,20 @@
 package com.example.medicalcentreappointmentbooker.Doctor;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.medicalcentreappointmentbooker.Callback.UserArrayListCallback;
 import com.example.medicalcentreappointmentbooker.Model.User;
 import com.example.medicalcentreappointmentbooker.R;
-import com.example.medicalcentreappointmentbooker.User.UserChatFragment;
-import com.example.medicalcentreappointmentbooker.User.UserSeeChatAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

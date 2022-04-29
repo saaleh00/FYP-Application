@@ -9,8 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.medicalcentreappointmentbooker.R;
 import com.example.medicalcentreappointmentbooker.Model.AppointmentModel;
+import com.example.medicalcentreappointmentbooker.R;
 
 import java.util.ArrayList;
 

@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.medicalcentreappointmentbooker.Model.Message;
 import com.example.medicalcentreappointmentbooker.R;
-import com.example.medicalcentreappointmentbooker.User.UserChatAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;

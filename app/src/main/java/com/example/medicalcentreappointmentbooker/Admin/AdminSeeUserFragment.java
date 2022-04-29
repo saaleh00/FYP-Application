@@ -3,15 +3,14 @@ package com.example.medicalcentreappointmentbooker.Admin;
 import static android.content.ContentValues.TAG;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.example.medicalcentreappointmentbooker.Callback.UserStatisticCallback;
 import com.example.medicalcentreappointmentbooker.Model.UserStatistic;
@@ -100,7 +99,8 @@ public class AdminSeeUserFragment extends Fragment {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                int height, weight, noOfAppointments, noOfCancellations;
+                int noOfAppointments, noOfCancellations;
+                double height, weight;
                 String bloodType, age;
                 long timeStamp;
 
@@ -108,15 +108,15 @@ public class AdminSeeUserFragment extends Fragment {
                 DataSnapshot statistics = snapshot.child("Statistics").child(userID);
 
                 if (users.hasChild("height")) {
-                    height = users.child("height").getValue(Integer.class);
+                    height = users.child("height").getValue(Double.class);
                 }
                 else {
-                    height = 0;
+                    height = 0.0;
                 }
                 if (users.hasChild("weight"))
-                    weight = users.child("weight").getValue(Integer.class);
+                    weight = users.child("weight").getValue(Double.class);
                 else
-                    weight = 0;
+                    weight = 0.0;
                 if (users.hasChild("bloodType"))
                     bloodType = users.child("bloodType").getValue(String.class);
                 else

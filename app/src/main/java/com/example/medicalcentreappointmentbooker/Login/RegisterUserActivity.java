@@ -1,9 +1,9 @@
 package com.example.medicalcentreappointmentbooker.Login;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -13,9 +13,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.medicalcentreappointmentbooker.R;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.medicalcentreappointmentbooker.Model.User;
 import com.example.medicalcentreappointmentbooker.Model.UserStatistic;
+import com.example.medicalcentreappointmentbooker.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -111,9 +114,8 @@ public class RegisterUserActivity extends AppCompatActivity implements View.OnCl
                                         FirebaseDatabase.getInstance().getReference("Statistics").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                                 .setValue(userStats);
 
-                                        Toast.makeText(RegisterUserActivity.this, "User successfully registered", Toast.LENGTH_LONG).show();
-                                        startActivity(new Intent(RegisterUserActivity.this, LoginActivity.class));
-                                        finish();
+                                        triggerRebirth(RegisterUserActivity.this);
+
                                     } else{
                                         Toast.makeText(RegisterUserActivity.this, "Failed to register user", Toast.LENGTH_LONG).show();
                                     }
@@ -129,6 +131,15 @@ public class RegisterUserActivity extends AppCompatActivity implements View.OnCl
                 });
 
 
+    }
+
+    public static void triggerRebirth(Context context) {
+        PackageManager packageManager = context.getPackageManager();
+        Intent intent = packageManager.getLaunchIntentForPackage(context.getPackageName());
+        ComponentName componentName = intent.getComponent();
+        Intent mainIntent = Intent.makeRestartActivityTask(componentName);
+        context.startActivity(mainIntent);
+        Runtime.getRuntime().exit(0);
     }
 
     @Override

@@ -7,6 +7,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -14,16 +21,8 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.example.medicalcentreappointmentbooker.R;
 import com.example.medicalcentreappointmentbooker.Model.User;
+import com.example.medicalcentreappointmentbooker.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -34,10 +33,6 @@ import com.google.firebase.database.ValueEventListener;
 
 
 public class AdminHomeFragment extends Fragment implements View.OnClickListener{
-
-    private FirebaseUser user;
-    private DatabaseReference databaseReference;
-    private String userID;
 
     private CardView openAddDoctorButton, openViewDoctorButton, openViewUserButton;
     private ImageView logout;
@@ -73,30 +68,6 @@ public class AdminHomeFragment extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_admin_home, container, false);
-
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
-        userID = user.getUid();
-
-        final TextView adminUserName = view.findViewById(R.id.adminUserName);
-
-        databaseReference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User userProfile = snapshot.getValue(User.class);
-
-                if (userProfile != null){
-                    String userName = userProfile.name;
-                    adminUserName.setText("Admin " + userName);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
-            }
-        });
-
 
         openAddDoctorButton = view.findViewById(R.id.adminOpenAddDoctorButton);
         openAddDoctorButton.setOnClickListener(this);

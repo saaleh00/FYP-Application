@@ -1,19 +1,17 @@
 package com.example.medicalcentreappointmentbooker.User;
 
 import android.os.Bundle;
-
-import androidx.activity.OnBackPressedCallback;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.Navigation;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.example.medicalcentreappointmentbooker.Callback.UserProfileCallback;
 import com.example.medicalcentreappointmentbooker.Model.User;
@@ -110,19 +108,18 @@ public class UserProfilePageFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                int userHeight;
-                int userWeight;
+                double userHeight, userWeight;
                 String userBlood;
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     if (dataSnapshot.getKey().equals(firebaseUser.getUid())){
                         if (dataSnapshot.hasChild("height")){
-                            userHeight = dataSnapshot.child("height").getValue(Integer.class);
+                            userHeight = dataSnapshot.child("height").getValue(Double.class);
                         } else{
                             userHeight = 0;
                         }
                         if (dataSnapshot.hasChild("weight")){
-                            userWeight = dataSnapshot.child("weight").getValue(Integer.class);
+                            userWeight = dataSnapshot.child("weight").getValue(Double.class);
                         } else{
                             userWeight = 0;
                         }

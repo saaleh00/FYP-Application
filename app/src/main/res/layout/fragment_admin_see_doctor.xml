@@ -44,6 +44,16 @@
         app:civ_border_color="@color/black"/>
 
     <TextView
+        android:id="@+id/clickToAddImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Click above to add profile image"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/statDoctorImage" />
+
+    <TextView
         android:id="@+id/age"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
@@ -53,7 +63,7 @@
         android:text="Age: "
         android:textSize="22sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/statDoctorImage" />
+        app:layout_constraintTop_toBottomOf="@+id/clickToAddImage" />
 
 
     <TextView
@@ -66,7 +76,7 @@
         android:text="ACTUAL"
         android:textSize="22sp"
         app:layout_constraintLeft_toRightOf="@id/age"
-        app:layout_constraintTop_toBottomOf="@+id/statDoctorImage" />
+        app:layout_constraintTop_toBottomOf="@+id/clickToAddImage" />
 
     <TextView
         android:id="@+id/dateOfAccount"
@@ -151,6 +161,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

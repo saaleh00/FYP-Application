@@ -1,17 +1,10 @@
 package com.example.medicalcentreappointmentbooker.Doctor;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medicalcentreappointmentbooker.R;
-import com.example.medicalcentreappointmentbooker.User.HomeFragment;
 
 public class DoctorActivity extends AppCompatActivity {
 

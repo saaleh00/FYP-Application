@@ -3,7 +3,8 @@ package com.example.medicalcentreappointmentbooker.Model;
 public class User {
 
     public String name, age, email, role, userID, bloodType;
-    public int height, weight, noOfAppointments, noOfCancellations;
+    public int noOfAppointments, noOfCancellations;
+    private double height, weight;
 
 
     public User() {
@@ -34,7 +35,7 @@ public class User {
     }
 
     //user profile
-    public User(String name, int height, int weight, String bloodType){
+    public User(String name, double height, double weight, String bloodType){
         this.name = name;
         this.height = height;
         this.weight = weight;
@@ -64,11 +65,11 @@ public class User {
         return email;
     }
 
-    public int getHeight() {
+    public double getHeight() {
         return height;
     }
 
-    public int getWeight() {
+    public double getWeight() {
         return weight;
     }
 

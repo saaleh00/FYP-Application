@@ -82,6 +82,7 @@ public class DoctorSeeChatFragment extends Fragment implements DoctorSeeChatAdap
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                userArrayList.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     if (dataSnapshot.child("role").getValue().equals("user")){
                         String userName = dataSnapshot.child("name").getValue().toString();

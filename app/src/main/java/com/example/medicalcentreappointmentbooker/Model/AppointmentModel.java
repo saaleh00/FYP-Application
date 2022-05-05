@@ -55,10 +55,6 @@ public class AppointmentModel {
         return patient;
     }
 
-    public void setPatient(String patient) {
-        this.patient = patient;
-    }
-
     public String getDoctorID() {
         return doctorID;
     }

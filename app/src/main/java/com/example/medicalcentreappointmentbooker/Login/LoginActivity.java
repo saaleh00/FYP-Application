@@ -34,7 +34,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button loginButton;
     private ProgressBar loginProgressBar;
 
-//    private final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
     private FirebaseAuth mAuth;
 
     @Override
@@ -95,8 +94,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (task.isSuccessful()) {
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-//                    if (user.isEmailVerified()) {
-                    if (true) {
+                    if (user.isEmailVerified()) {
                         directToUserPage();
                         finish();
                     } else {

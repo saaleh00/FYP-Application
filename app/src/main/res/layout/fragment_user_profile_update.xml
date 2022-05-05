@@ -40,7 +40,8 @@
         android:layout_marginRight="200dp"
         android:ems="10"
         android:hint="Height"
-        android:inputType="number"
+
+        android:inputType="numberDecimal"
         android:textSize="22sp"
         app:layout_constraintHorizontal_bias="0.262"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -68,7 +69,7 @@
         android:layout_marginRight="200dp"
         android:ems="10"
         android:hint="Weight"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         android:textSize="22sp"
         app:layout_constraintHorizontal_bias="0.262"
         app:layout_constraintLeft_toLeftOf="parent"
